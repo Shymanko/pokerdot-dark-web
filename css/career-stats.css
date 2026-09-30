@@ -265,3 +265,15 @@ button.ms-result-row{width:100%;background:none;color:inherit;text-align:left;cu
 .ms-tournament-scoreboard>button:active{background:#ffffff09}
 @media(max-width:370px){.ms-tournament-hero-v2{padding:22px 18px;min-height:205px}.ms-tournament-prize>strong{font-size:34px}.ms-tournament-scoreboard>button>strong{font-size:29px}.ms-tournament-scoreboard>button>span{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.ms-trophy-object img,.ms-trophy-object canvas{transition:none}}
+
+/* One real 3D podium; native text floats over the corresponding model anchors. */
+.ms-podium.ms-podium-v2{padding:0;margin-bottom:24px;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#dbc3930b,transparent 67%),#0c0e11;border-color:#ffffff12;border-radius:20px}
+.ms-podium-scene{position:relative;isolation:isolate;width:100%;aspect-ratio:9/8}
+.ms-podium-scene:after{content:"";position:absolute;z-index:-1;left:11%;right:11%;bottom:19%;height:7%;border-radius:50%;background:#0009;filter:blur(12px)}
+.ms-podium-render,.ms-podium-scene canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .3s}
+.ms-podium-scene canvas{opacity:0}.ms-podium-scene[data-ready=true] canvas{opacity:1}.ms-podium-scene[data-ready=true] .ms-podium-render{opacity:0}
+.ms-podium-label{position:absolute;z-index:2;transform:translate(-50%,-100%);text-align:center;width:28%;pointer-events:none;padding-bottom:9px;font-variant-numeric:tabular-nums;text-shadow:0 2px 9px #0b0d10}
+.ms-podium-label>strong{display:block;font-size:28px;line-height:1.15;letter-spacing:-.035em;font-weight:650;color:#eef1f5}
+.ms-podium-label[data-place="1"]>strong{color:#f1d597;font-size:33px}
+.ms-podium-label>span{display:block;font-size:10px;line-height:1.5;margin-top:4px;color:#969da8}
+@media(prefers-reduced-motion:reduce){.ms-podium-render,.ms-podium-scene canvas{transition:none}}

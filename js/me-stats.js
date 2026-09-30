@@ -854,21 +854,11 @@ function MsSpinPodium({
 }) {
   const counts = period === '7d' ? [25, 21, 16] : period === '30d' ? [93, 77, 57] : [169, 140, 103];
   return /*#__PURE__*/React.createElement("section", {
-    className: "ms-podium",
+    className: "ms-podium ms-podium-v2",
     "aria-label": "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0444\u0438\u043D\u0438\u0448\u0435\u0439 \u043F\u043E \u043C\u0435\u0441\u0442\u0430\u043C"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "ms-podium-stage"
-  }, [2, 1, 3].map(place => /*#__PURE__*/React.createElement("div", {
-    className: "ms-podium-column",
-    "data-place": place,
-    key: place
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "ms-podium-count"
-  }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
-    value: counts[place - 1]
-  })), /*#__PURE__*/React.createElement("span", null, "\u0444\u0438\u043D\u0438\u0448\u0435\u0439")), /*#__PURE__*/React.createElement("div", {
-    className: "ms-podium-step"
-  }, place === 1 && /*#__PURE__*/React.createElement(MsAwardIcon, null), /*#__PURE__*/React.createElement("b", null, place), /*#__PURE__*/React.createElement("small", null, "\u041C\u0415\u0421\u0422\u041E"))))), /*#__PURE__*/React.createElement("p", null, "\u041A\u0430\u0436\u0434\u0430\u044F \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D\u043D\u0430\u044F \u0438\u0433\u0440\u0430 \u2014 \u043E\u0434\u043D\u043E \u043C\u0435\u0441\u0442\u043E \u043D\u0430 \u043F\u044C\u0435\u0434\u0435\u0441\u0442\u0430\u043B\u0435"));
+  }, /*#__PURE__*/React.createElement(window.SpinPodium3D, {
+    counts: counts
+  }));
 }
 function MsMttScreen({
   onClose
