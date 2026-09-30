@@ -635,9 +635,6 @@ function MsSpinWidget({
     label: "\u041F\u041E\u0411\u0415\u0414\u042B",
     value: 41,
     suffix: "%"
-  }), /*#__PURE__*/React.createElement(MsMetric, {
-    label: "\u0414\u0416\u0415\u041A\u041F\u041E\u0422\u042B",
-    value: 1
   }));
 }
 function MsLbWidget({
