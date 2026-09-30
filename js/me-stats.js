@@ -910,13 +910,24 @@ function MsMttScreen({
     key: period,
     className: "ms-body"
   }, /*#__PURE__*/React.createElement("section", {
-    className: "ms-tournament-hero"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "ms-tournament-hero ms-tournament-hero-v2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-tournament-prize"
+  }, /*#__PURE__*/React.createElement("span", {
     className: "ms-eyebrow"
-  }, "\u0422\u0423\u0420\u041D\u0418\u0420\u041D\u042B\u0415 \u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415"), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
+  }, "\u0422\u0423\u0420\u041D\u0418\u0420\u041D\u042B\u0415", /*#__PURE__*/React.createElement("br", null), "\u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415"), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: period === '7d' ? 1563 : period === '30d' ? 3420 : 6840,
     prefix: "$"
-  })), /*#__PURE__*/React.createElement("small", null, steps[1][1], " \u043F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u0439 \u0432 \u043F\u0440\u0438\u0437\u044B \xB7 ", steps[0][1], " \u0442\u0443\u0440\u043D\u0438\u0440\u043E\u0432")), /*#__PURE__*/React.createElement(MsAwardIcon, null)), /*#__PURE__*/React.createElement("section", {
+  }))), /*#__PURE__*/React.createElement(window.TournamentTrophy3D, null)), /*#__PURE__*/React.createElement(MsHeading, null, "\u041E\u0422 \u0412\u0425\u041E\u0414\u0410 \u0414\u041E \u041F\u041E\u0411\u0415\u0414\u042B"), /*#__PURE__*/React.createElement("div", {
+    className: "ms-tournament-scoreboard"
+  }, steps.map(([label, value, key], i) => /*#__PURE__*/React.createElement("button", {
+    key: key,
+    onClick: () => setEx(key),
+    "aria-label": label + ': ' + value + '. Подробнее',
+    "data-winner": i === 3
+  }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
+    value: value
+  })), /*#__PURE__*/React.createElement("span", null, ['Сыграно', 'В призах', 'Финальные столы', 'Победы'][i])))), /*#__PURE__*/React.createElement("section", {
     className: "ms-equal-grid ms-tournament-summary"
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0412 \u041F\u0420\u0418\u0417\u0410\u0425 \xB7 ITM",
@@ -946,19 +957,7 @@ function MsMttScreen({
     tournament: true,
     period: period,
     onExplain: setEx
-  }), /*#__PURE__*/React.createElement(MsHeading, null, "\u041E\u0422 \u0412\u0425\u041E\u0414\u0410 \u0414\u041E \u041F\u041E\u0411\u0415\u0414\u042B"), /*#__PURE__*/React.createElement("div", {
-    className: "ms-milestones"
-  }, steps.map(([l, v, key], i) => /*#__PURE__*/React.createElement("button", {
-    key: l,
-    onClick: () => setEx(key),
-    "data-stage": i
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "ms-milestone-icon"
-  }, /*#__PURE__*/React.createElement(MsAwardIcon, {
-    kind: ['cards', 'prize', 'table', 'cup'][i]
-  })), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
-    value: v
-  })), /*#__PURE__*/React.createElement("span", null, l)))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0422\u041E\u041F-5 \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412 ", period === 'all' ? 'ЗА ВСЁ ВРЕМЯ' : period === '7d' ? 'ЗА 7 ДНЕЙ' : 'ЗА 30 ДНЕЙ'), /*#__PURE__*/React.createElement(MsResultRows, {
+  }), /*#__PURE__*/React.createElement(MsHeading, null, "\u0422\u041E\u041F-5 \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412 ", period === 'all' ? 'ЗА ВСЁ ВРЕМЯ' : period === '7d' ? 'ЗА 7 ДНЕЙ' : 'ЗА 30 ДНЕЙ'), /*#__PURE__*/React.createElement(MsResultRows, {
     rows: msTopResults(period),
     onOpen: setResult
   }), history.widget));
