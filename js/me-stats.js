@@ -405,6 +405,12 @@ function MsCashOverview({
     }
   })), " \u0431\u043E\u043B\u044C\u0448\u0435"))));
 }
+const MS_RIVAL_AVATARS = {
+  RiverStone: "assets/chat/drebin.webp",
+  LuckyFox: "assets/chat/girl.webp",
+  OmahaKing: "assets/avatar.png",
+  AceHunter: "assets/chat/sponge.webp"
+};
 function MsRivals({
   period,
   disc = "HOLD'EM",
@@ -421,8 +427,25 @@ function MsRivals({
   }, rivals.map(([label, nick, result, count, ko], i) => /*#__PURE__*/React.createElement("button", {
     key: label,
     "data-positive": i === 1,
-    onClick: () => onExplain(label)
-  }, /*#__PURE__*/React.createElement("small", null, label), /*#__PURE__*/React.createElement("b", null, nick), /*#__PURE__*/React.createElement("span", null, Math.max(1, Math.round(count * k)), " ", tournament ? 'турниров' : 'раздач', " \u0432\u043C\u0435\u0441\u0442\u0435"), tournament && /*#__PURE__*/React.createElement("span", null, i ? 'Вы выбили' : 'Вас выбили', ": ", Math.round(ko * k)), /*#__PURE__*/React.createElement("strong", null, result > 0 ? '+' : '', (result * k).toFixed(1), " BB")))));
+    "aria-label": `${label}: ${nick}. Подробнее`,
+    onClick: () => window.showScreenInfo?.({
+      kicker: label,
+      title: nick,
+      noLink: true,
+      body: [MS_EXPLAIN[label], `${Math.max(1, Math.round(count * k))} ${tournament ? 'турниров' : 'раздач'} вместе · ${period === '7d' ? '7 дней' : period === '30d' ? '30 дней' : 'всё время'}.`, `Ваш результат: ${result > 0 ? '+' : ''}${(result * k).toFixed(1)} BB.`]
+    })
+  }, /*#__PURE__*/React.createElement("small", null, label), /*#__PURE__*/React.createElement("span", {
+    className: "ms-rival-identity"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: MS_RIVAL_AVATARS[nick],
+    alt: "",
+    width: "40",
+    height: "40"
+  }), /*#__PURE__*/React.createElement("b", null, nick)), /*#__PURE__*/React.createElement("span", null, Math.max(1, Math.round(count * k)), " ", tournament ? 'турниров' : 'раздач', " \u0432\u043C\u0435\u0441\u0442\u0435"), tournament && /*#__PURE__*/React.createElement("span", null, i ? 'Вы выбили' : 'Вас выбили', ": ", Math.round(ko * k)), /*#__PURE__*/React.createElement("strong", null, result > 0 ? '+' : '', (result * k).toFixed(1), " BB"), /*#__PURE__*/React.createElement("span", {
+    className: "ms-rival-more"
+  }, "\u041F\u041E\u0414\u0420\u041E\u0411\u041D\u0415\u0415 ", /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\u2197"))))));
 }
 Object.assign(MS_EXPLAIN, {
   'ЗАКЛЯТЫЙ ВРАГ': 'Соперник, с которым сыграно больше всего раздач за выбранный период. Ниже показан ваш результат против него в больших блайндах.',
