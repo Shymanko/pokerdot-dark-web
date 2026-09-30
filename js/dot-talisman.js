@@ -430,28 +430,7 @@ function LuckSpeedometer({
   const v = value || 0,
     t = Math.max(-8, Math.min(8, v)),
     angle = t / 8 * 110;
-  const [ready, setReady] = React.useState(false),
-    [explain, setExplain] = React.useState(false);
-  const infoRef = React.useRef(null),
-    infoButton = React.useRef(null);
-  React.useEffect(() => {
-    if (!explain) return;
-    const dismiss = e => {
-      if (!infoRef.current?.contains(e.target)) setExplain(false);
-    };
-    const escape = e => {
-      if (e.key === 'Escape') {
-        setExplain(false);
-        infoButton.current?.focus();
-      }
-    };
-    document.addEventListener('pointerdown', dismiss);
-    document.addEventListener('keydown', escape);
-    return () => {
-      document.removeEventListener('pointerdown', dismiss);
-      document.removeEventListener('keydown', escape);
-    };
-  }, [explain]);
+  const [ready, setReady] = React.useState(false);
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(id);
@@ -473,16 +452,17 @@ function LuckSpeedometer({
   }, /*#__PURE__*/React.createElement("div", {
     className: "pd-luck-label"
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", null), "\u0423\u0414\u0410\u0427\u0410"), /*#__PURE__*/React.createElement("div", {
-    className: "pd-luck-info",
-    ref: infoRef
+    className: "pd-luck-info"
   }, /*#__PURE__*/React.createElement("button", {
     className: "pd-luck-info-button",
-    ref: infoButton,
     "aria-label": "\u041A\u0430\u043A \u0440\u0430\u0441\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0443\u0434\u0430\u0447\u0430",
     "aria-haspopup": "dialog",
-    "aria-expanded": explain,
-    "aria-controls": "luck-info-popover",
-    onClick: () => setExplain(!explain)
+    onClick: () => window.showScreenInfo?.({
+      kicker: 'УДАЧА',
+      title: 'Как рассчитывается удача',
+      noLink: true,
+      body: ['Учитываем последние 10 шоудаунов — раздач со вскрытием карт.', 'Шкала показывает разницу между фактическим результатом и EV — результатом по вероятностям. BI — один бай-ин.', 'Короткий отрезок быстро меняется. Это не прогноз следующих раздач.']
+    })
   }, /*#__PURE__*/React.createElement("svg", {
     "aria-hidden": "true",
     width: "18",
@@ -500,20 +480,7 @@ function LuckSpeedometer({
     r: ".8",
     fill: "currentColor",
     stroke: "none"
-  }))), explain && /*#__PURE__*/React.createElement("div", {
-    id: "luck-info-popover",
-    className: "pd-luck-popover",
-    role: "dialog",
-    "aria-label": "\u041A\u0430\u043A \u0440\u0430\u0441\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0443\u0434\u0430\u0447\u0430"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "pd-luck-popover-heading"
-  }, /*#__PURE__*/React.createElement("h3", null, "\u041A\u0430\u043A \u0440\u0430\u0441\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0443\u0434\u0430\u0447\u0430"), /*#__PURE__*/React.createElement("button", {
-    "aria-label": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435",
-    onClick: () => {
-      setExplain(false);
-      infoButton.current?.focus();
-    }
-  }, "\xD7")), /*#__PURE__*/React.createElement("p", null, "\u0423\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u043C \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 ", /*#__PURE__*/React.createElement("strong", null, "10 \u0448\u043E\u0443\u0434\u0430\u0443\u043D\u043E\u0432"), " \u2014 \u0440\u0430\u0437\u0434\u0430\u0447 \u0441\u043E \u0432\u0441\u043A\u0440\u044B\u0442\u0438\u0435\u043C \u043A\u0430\u0440\u0442."), /*#__PURE__*/React.createElement("p", null, "\u0428\u043A\u0430\u043B\u0430 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u0440\u0430\u0437\u043D\u0438\u0446\u0443 \u043C\u0435\u0436\u0434\u0443 \u0444\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u043C \u0438 ", /*#__PURE__*/React.createElement("strong", null, "EV"), " \u2014 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u043C \u043F\u043E \u0432\u0435\u0440\u043E\u044F\u0442\u043D\u043E\u0441\u0442\u044F\u043C. ", /*#__PURE__*/React.createElement("strong", null, "BI"), " \u2014 \u043E\u0434\u0438\u043D \u0431\u0430\u0439-\u0438\u043D."), /*#__PURE__*/React.createElement("small", null, "\u041A\u043E\u0440\u043E\u0442\u043A\u0438\u0439 \u043E\u0442\u0440\u0435\u0437\u043E\u043A \u0431\u044B\u0441\u0442\u0440\u043E \u043C\u0435\u043D\u044F\u0435\u0442\u0441\u044F. \u042D\u0442\u043E \u043D\u0435 \u043F\u0440\u043E\u0433\u043D\u043E\u0437 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0445 \u0440\u0430\u0437\u0434\u0430\u0447.")))), /*#__PURE__*/React.createElement("svg", {
+  }))))), /*#__PURE__*/React.createElement("svg", {
     viewBox: "0 0 340 242",
     role: "img",
     "aria-label": value === null ? 'Недостаточно данных' : `Везение ${v} BI относительно EV`
