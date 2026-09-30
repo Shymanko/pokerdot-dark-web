@@ -365,7 +365,7 @@ function HeatScreen({
     }));
   }, [open]);
   if (!open) return null;
-  const bi = win === 10 ? cur.bi : win === 100 ? cur.bi * 2 : cur.bi * 1.4;
+  const bi = win === 10 ? cur.bb : win === 100 ? cur.bb * 2 : cur.bb * 1.4;
   const verdict = D.LUCK_VERDICTS[cur.zone] || D.LUCK_VERDICTS[2];
   const frame = verdict.frame === "pearl" ? "#E8E8F0" : verdict.frame === "gold" ? HB_GOLD : UI.hairline;
   const st = window.dtLuckStats ? window.dtLuckStats(bi, win) : {
@@ -451,7 +451,7 @@ function HeatScreen({
   }, /*#__PURE__*/React.createElement(window.DtCount, {
     value: Math.abs(bi),
     prefix: bi >= 0 ? '+' : '−'
-  }), /*#__PURE__*/React.createElement("small", null, "BI")), /*#__PURE__*/React.createElement("p", null, bi >= 0 ? 'Выше математического ожидания' : 'Ниже математического ожидания'))), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("small", null, "BB")), /*#__PURE__*/React.createElement("p", null, bi >= 0 ? 'Выше математического ожидания' : 'Ниже математического ожидания'))), /*#__PURE__*/React.createElement("div", {
     className: "hb-trend-panel"
   }, /*#__PURE__*/React.createElement(window.DtLuckLines, {
     key: win,
@@ -473,7 +473,7 @@ function HeatScreen({
     decimals: 0
   })))), /*#__PURE__*/React.createElement("p", {
     className: "hb-explain"
-  }, "\u0421\u0440\u0430\u0432\u043D\u0438\u0432\u0430\u0435\u043C \u0444\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442 \u0441 EV \u2014 \u0442\u0435\u043C, \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u044B \u0434\u043E\u043B\u0436\u043D\u044B \u0431\u044B\u043B\u0438 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E \u0432\u0435\u0440\u043E\u044F\u0442\u043D\u043E\u0441\u0442\u044F\u043C. \u0420\u0430\u0437\u043D\u0438\u0446\u0430 \u0432 \u0431\u0430\u0439-\u0438\u043D\u0430\u0445 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u0443\u0434\u0430\u0447\u0443 \u0437\u0430 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0439 \u043F\u0435\u0440\u0438\u043E\u0434.")), /*#__PURE__*/React.createElement("div", {
+  }, "\u0421\u0440\u0430\u0432\u043D\u0438\u0432\u0430\u0435\u043C \u0444\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442 \u0441 EV \u2014 \u0442\u0435\u043C, \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u044B \u0434\u043E\u043B\u0436\u043D\u044B \u0431\u044B\u043B\u0438 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E \u0432\u0435\u0440\u043E\u044F\u0442\u043D\u043E\u0441\u0442\u044F\u043C. \u0414\u043B\u044F \u043A\u0430\u0436\u0434\u043E\u0439 \u0440\u0430\u0437\u0434\u0430\u0447\u0438 \u0440\u0430\u0437\u043D\u0438\u0446\u0443 \u0434\u0435\u043B\u0438\u043C \u043D\u0430 \u0440\u0430\u0437\u043C\u0435\u0440 \u0431\u043E\u043B\u044C\u0448\u043E\u0433\u043E \u0431\u043B\u0430\u0439\u043D\u0434\u0430 \u044D\u0442\u043E\u0439 \u0440\u0430\u0437\u0434\u0430\u0447\u0438 \u0438 \u0441\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u043C \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F. \u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442 \u0432 BB \u043E\u0431\u0449\u0438\u0439 \u0434\u043B\u044F \u0432\u0441\u0435\u0445 \u0434\u0438\u0441\u0446\u0438\u043F\u043B\u0438\u043D, \u0432\u043A\u043B\u044E\u0447\u0430\u044F \u0442\u0443\u0440\u043D\u0438\u0440\u044B.")), /*#__PURE__*/React.createElement("div", {
     className: "hb-sec",
     style: {
       margin: "22px 0 0"

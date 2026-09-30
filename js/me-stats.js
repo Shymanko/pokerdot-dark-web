@@ -337,38 +337,73 @@ function MsCashOverview({
     total = activity.reduce((a, b) => a + b, 0);
   const counts = activity.map(v => Math.floor(v / total * c.games));
   for (let i = 0, left = c.games - counts.reduce((a, b) => a + b, 0); i < left; i++) counts[i % days]++;
+  const played = counts.filter(v => v > 0).length;
   return /*#__PURE__*/React.createElement("section", {
-    className: "ms-cash-overview"
+    className: "ms-cash-overview ms-cash-reference"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => onExplain('TOTAL HANDS')
-  }, /*#__PURE__*/React.createElement("span", null, "\u0420\u0410\u0417\u0414\u0410\u0427\u0418", /*#__PURE__*/React.createElement("strong", null, c.hands.toLocaleString('ru'))), /*#__PURE__*/React.createElement("div", {
-    className: "ms-split"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-label"
+  }, "\u0420\u0410\u0417\u0414\u0410\u0427\u0418 ", /*#__PURE__*/React.createElement("span", null, "\u24D8")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-value"
+  }, /*#__PURE__*/React.createElement("strong", null, c.hands.toLocaleString('ru')), /*#__PURE__*/React.createElement("small", null, "\u0441\u044B\u0433\u0440\u0430\u043D\u043E \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-bar ms-ref-bar-large"
   }, /*#__PURE__*/React.createElement("i", {
     style: {
-      width: c.vpip + '%'
+      flex: c.vpip
     }
-  })), /*#__PURE__*/React.createElement("small", null, "\u0411\u043E\u0440\u043E\u043B\u0441\u044F \u0437\u0430 \u0431\u0430\u043D\u043A ", participated, " \xB7 ", c.vpip, "%", /*#__PURE__*/React.createElement("br", null), "\u0421\u0431\u0440\u043E\u0441\u0438\u043B \u0431\u0435\u0437 \u0434\u043E\u0431\u0440\u043E\u0432\u043E\u043B\u044C\u043D\u044B\u0445 \u0432\u043B\u043E\u0436\u0435\u043D\u0438\u0439 ", c.hands - participated, " \xB7 ", 100 - c.vpip, "%")), /*#__PURE__*/React.createElement("button", {
+  }, c.vpip, "%"), /*#__PURE__*/React.createElement("b", {
+    style: {
+      flex: 100 - c.vpip
+    }
+  }, 100 - c.vpip, "%")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-legend"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", null), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, participated), /*#__PURE__*/React.createElement("small", null, "\u0431\u043E\u0440\u043E\u043B\u0441\u044F \u0437\u0430 \u0431\u0430\u043D\u043A"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", null), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, c.hands - participated), /*#__PURE__*/React.createElement("small", null, "\u0441\u0431\u0440\u043E\u0441\u0438\u043B \u0431\u0435\u0437 \u0432\u043B\u043E\u0436\u0435\u043D\u0438\u0439"))))), /*#__PURE__*/React.createElement("button", {
     onClick: () => onExplain('WINS')
-  }, /*#__PURE__*/React.createElement("span", null, "\u041F\u041E\u0411\u0415\u0414\u042B \u041D\u0410 \u0428\u041E\u0423\u0414\u0410\u0423\u041D\u0415", /*#__PURE__*/React.createElement("strong", null, c.wsd, "%")), /*#__PURE__*/React.createElement("small", null, showdowns, " \u0432\u0441\u043A\u0440\u044B\u0442\u0438\u0439"), /*#__PURE__*/React.createElement("div", {
-    className: "ms-split"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-label"
+  }, "\u041F\u041E\u0411\u0415\u0414\u042B \u041D\u0410 \u0428\u041E\u0423\u0414\u0410\u0423\u041D\u0415 ", /*#__PURE__*/React.createElement("span", null, "\u24D8")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-value"
+  }, /*#__PURE__*/React.createElement("strong", null, c.wsd, /*#__PURE__*/React.createElement("em", null, "%")), /*#__PURE__*/React.createElement("small", null, "\u0438\u0437 ", showdowns, " \u0432\u0441\u043A\u0440\u044B\u0442\u0438\u0439 \u043A\u0430\u0440\u0442")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-bar ms-ref-showdown"
   }, /*#__PURE__*/React.createElement("i", {
     style: {
-      width: c.wsd + '%'
+      flex: c.wsd
     }
-  })), /*#__PURE__*/React.createElement("small", null, "\u0412\u044B\u0438\u0433\u0440\u0430\u043B ", won, " \xB7 ", c.wsd, "% / \u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043B ", showdowns - won, " \xB7 ", 100 - c.wsd, "%")), /*#__PURE__*/React.createElement("button", {
+  }), /*#__PURE__*/React.createElement("b", {
+    style: {
+      flex: 100 - c.wsd
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-legend ms-ref-showdown"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", null), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, won), /*#__PURE__*/React.createElement("small", null, "\u0432\u044B\u0438\u0433\u0440\u0430\u043B"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("i", null), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, showdowns - won), /*#__PURE__*/React.createElement("small", null, "\u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043B"))))), /*#__PURE__*/React.createElement("button", {
     onClick: () => onExplain('TOTAL GAMES')
-  }, /*#__PURE__*/React.createElement("span", null, "\u0421\u0415\u0421\u0421\u0418\u0418", /*#__PURE__*/React.createElement("strong", null, c.games)), /*#__PURE__*/React.createElement("small", null, "\u0412 \u0441\u0440\u0435\u0434\u043D\u0435\u043C ", Math.round(c.hands / c.games), " \u0440\u0430\u0437\u0434\u0430\u0447 \u0437\u0430 \u0441\u0435\u0441\u0441\u0438\u044E"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-label"
+  }, "\u0421\u0415\u0421\u0421\u0418\u0418 ", /*#__PURE__*/React.createElement("span", null, "\u24D8")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-value"
+  }, /*#__PURE__*/React.createElement("strong", null, c.games), /*#__PURE__*/React.createElement("small", null, "\u2248 ", Math.round(c.hands / c.games), " \u0440\u0430\u0437\u0434\u0430\u0447 \u0437\u0430 \u0441\u0435\u0441\u0441\u0438\u044E")), /*#__PURE__*/React.createElement("div", {
     className: "ms-activity",
     style: {
-      gridTemplateColumns: `repeat(${days === 30 ? 10 : days},1fr)`
+      gridTemplateColumns: `repeat(${days === 30 ? 15 : days},1fr)`
     }
   }, counts.map((v, i) => /*#__PURE__*/React.createElement("i", {
     key: i,
     title: `${period === 'all' ? 'Месяц' : 'День'} ${i + 1}: ${v} сессий`,
     style: {
-      opacity: .12 + .88 * v / Math.max(...counts)
+      background: v ? '#21c983' : '#262a2f',
+      opacity: v ? .3 + .7 * v / Math.max(...counts) : .7
     }
-  }))), /*#__PURE__*/React.createElement("small", null, period === 'all' ? 'Последние 12 месяцев' : days + ' дней', " \xB7 \u044F\u0440\u0447\u0435 = \u0431\u043E\u043B\u044C\u0448\u0435 \u0441\u0435\u0441\u0441\u0438\u0439")));
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "ms-ref-calendar-foot"
+  }, /*#__PURE__*/React.createElement("small", null, "\u0418\u0433\u0440\u0430\u043B ", played, " \u0438\u0437 ", days, " ", period === 'all' ? 'месяцев' : 'дней'), /*#__PURE__*/React.createElement("span", null, "\u043C\u0435\u043D\u044C\u0448\u0435 ", Array.from({
+    length: 4
+  }, (_, i) => /*#__PURE__*/React.createElement("i", {
+    key: i,
+    style: {
+      opacity: .25 + i * .25
+    }
+  })), " \u0431\u043E\u043B\u044C\u0448\u0435"))));
 }
 function MsRivals({
   period,

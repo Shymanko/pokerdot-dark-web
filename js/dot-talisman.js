@@ -401,15 +401,15 @@ function DtChange({
 // showdown breakdown + EV/real lines, derived from the luck value (demo)
 function dtLuckStats(bi, windowSize = window.DOT.LUCK_WINDOW.showdowns) {
   const n = windowSize,
-    up = Math.max(Math.round(n * .3), Math.min(Math.round(n * .7), Math.round(n / 2 + bi * 3 * n / 100))),
+    up = Math.max(Math.round(n * .3), Math.min(Math.round(n * .7), Math.round(n / 2 + bi / 100 * 3 * n / 100))),
     down = n - up;
   const ev = [],
     real = [];
   let e = 0,
     r = 0;
   for (let i = 0; i < n; i++) {
-    e += (.35 + i * 7 % 5 * .08) * n / 100;
-    r = e + bi * (i / Math.max(1, n - 1)) + (i === n - 1 ? 0 : Math.sin(i * 1.7) * .5);
+    e += (35 + i * 7 % 5 * 8) * n / 100;
+    r = e + bi * (i / Math.max(1, n - 1)) + (i === n - 1 ? 0 : Math.sin(i * 1.7) * 50);
     ev.push(+e.toFixed(1));
     real.push(+r.toFixed(1));
   }
@@ -428,20 +428,20 @@ function LuckSpeedometer({
   value
 }) {
   const v = value || 0,
-    t = Math.max(-8, Math.min(8, v)),
-    angle = t / 8 * 110;
+    t = Math.max(-500, Math.min(500, v)),
+    angle = t / 500 * 110;
   const [ready, setReady] = React.useState(false);
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(id);
   }, []);
-  const tone = v > 1.5 ? '#70d9ae' : v < -1.5 ? '#ef7886' : '#c2cbd8';
-  const verdict = value === null ? 'СОБИРАЕМ СИГНАЛ' : v >= 6 ? 'ЛЮБИМЧИК ФОРТУНЫ' : v >= 4 ? 'ПОЙМАЛ ВОЛНУ' : v >= 1.5 ? 'ВЕЗЁТ' : v <= -4 ? 'РЕЖИМ ТУРБУЛЕНТНОСТИ' : v <= -1.5 ? 'ФОРТУНА НА ПЕРЕРЫВЕ' : 'ПОЛНЫЙ ДЗЕН';
+  const tone = v > 100 ? '#70d9ae' : v < -100 ? '#ef7886' : '#c2cbd8';
+  const verdict = value === null ? 'СОБИРАЕМ СИГНАЛ' : v >= 450 ? 'ЛЮБИМЧИК ФОРТУНЫ' : v >= 300 ? 'ПОЙМАЛ ВОЛНУ' : v >= 100 ? 'ВЕЗЁТ' : v <= -300 ? 'РЕЖИМ ТУРБУЛЕНТНОСТИ' : v <= -100 ? 'ФОРТУНА НА ПЕРЕРЫВЕ' : 'ПОЛНЫЙ ДЗЕН';
   const point = (degree, r) => {
     const a = (degree - 90) * Math.PI / 180;
     return [170 + Math.cos(a) * r, 165 + Math.sin(a) * r];
   };
-  const tip = value === null ? 'Собираем данные. Ещё немного раздач — и будет что обсудить.' : v >= 6 ? 'Фортуна добавила тебя в избранное. Даже носки находятся парами.' : v >= 4 ? 'Сегодня даже бутерброд приземляется маслом вверх.' : v >= 1.5 ? 'Кажется, у тебя с удачей общий семейный тариф.' : v <= -4 ? 'Сегодня даже Wi-Fi раздаёт тебе плохие карты. Чай и пауза звучат неплохо.' : v <= -1.5 ? 'Фортуна вышла за кофе. Не пытайся вернуть её повышением ставок.' : 'Вселенная свела дебет с кредитом. Всё честно, даже подозрительно.';
+  const tip = value === null ? 'Собираем данные. Ещё немного раздач — и будет что обсудить.' : v >= 450 ? 'Фортуна добавила тебя в избранное. Даже носки находятся парами.' : v >= 300 ? 'Сегодня даже бутерброд приземляется маслом вверх.' : v >= 100 ? 'Кажется, у тебя с удачей общий семейный тариф.' : v <= -300 ? 'Сегодня даже Wi-Fi раздаёт тебе плохие карты. Чай и пауза звучат неплохо.' : v <= -100 ? 'Фортуна вышла за кофе. Не пытайся вернуть её повышением ставок.' : 'Вселенная свела дебет с кредитом. Всё честно, даже подозрительно.';
   return /*#__PURE__*/React.createElement("section", {
     className: "pd-luck-meter pd-luck-v2",
     "data-i18n": "off",
@@ -461,7 +461,7 @@ function LuckSpeedometer({
       kicker: 'УДАЧА',
       title: 'Как рассчитывается удача',
       noLink: true,
-      body: ['Учитываем последние 10 шоудаунов — раздач со вскрытием карт.', 'Шкала показывает разницу между фактическим результатом и EV — результатом по вероятностям. BI — один бай-ин.', 'Короткий отрезок быстро меняется. Это не прогноз следующих раздач.']
+      body: ['Учитываем последние 10 шоудаунов — раздач со вскрытием карт.', 'Шкала показывает разницу между фактическим результатом и EV — результатом по вероятностям. BB — большой блайнд. Для каждой раздачи делим разницу на её большой блайнд и суммируем по всем дисциплинам, включая турниры. Шкала от −500 до +500 BB.', 'Короткий отрезок быстро меняется. Это не прогноз следующих раздач.']
     })
   }, /*#__PURE__*/React.createElement("svg", {
     "aria-hidden": "true",
@@ -483,7 +483,7 @@ function LuckSpeedometer({
   }))))), /*#__PURE__*/React.createElement("svg", {
     viewBox: "0 0 340 242",
     role: "img",
-    "aria-label": value === null ? 'Недостаточно данных' : `Везение ${v} BI относительно EV`
+    "aria-label": value === null ? 'Недостаточно данных' : `Везение ${v} BB относительно EV`
   }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
     id: "luckBeam",
     x1: "0",
@@ -584,8 +584,8 @@ function LuckSpeedometer({
       strokeOpacity: major ? 1 : .4,
       strokeWidth: major ? 2 : 1
     });
-  }), [-8, -4, 0, 4, 8].map(n => {
-    const p = point(n / 8 * 110, 94);
+  }), [-500, -250, 0, 250, 500].map(n => {
+    const p = point(n / 500 * 110, 94);
     return /*#__PURE__*/React.createElement("text", {
       key: n,
       x: p[0],
@@ -650,10 +650,10 @@ function LuckSpeedometer({
     fill: "#f5f6fa",
     fontSize: "38",
     fontWeight: "600"
-  }, value === null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1), /*#__PURE__*/React.createElement("tspan", {
+  }, value === null ? '—' : (v > 0 ? '+' : '') + v.toFixed(0), /*#__PURE__*/React.createElement("tspan", {
     fontSize: "12",
     fill: "#aeb7c3"
-  }, " BI"))), /*#__PURE__*/React.createElement("div", {
+  }, " BB"))), /*#__PURE__*/React.createElement("div", {
     className: "pd-luck-extremes"
   }, /*#__PURE__*/React.createElement("span", null, "\u041D\u0415 \u0412\u0415\u0417\u0401\u0422"), /*#__PURE__*/React.createElement("span", null, "\u0412\u0415\u0417\u0401\u0422")), /*#__PURE__*/React.createElement("div", {
     className: "pd-luck-advice",
@@ -690,7 +690,7 @@ function DotTab({
   }, [sheet]);
   const color = a ? a.color : "#8A8A92",
     zone = cur ? dtT(D.LUCK_DEGREES[cur.zone]) : "";
-  const bi = cur ? `${cur.bi > 0 ? "+" : "−"}${Math.abs(cur.bi).toFixed(1)} BI` : "";
+  const bi = cur ? `${cur.bb > 0 ? "+" : "−"}${Math.abs(cur.bb).toFixed(1)} BB` : "";
   const replayChange = () => {
     const from = level > 0 ? L[level - 1].animal : null;
     setChange({
@@ -699,7 +699,7 @@ function DotTab({
     });
     setTyped(false);
   };
-  const stats = cur ? dtLuckStats(cur.bi) : null;
+  const stats = cur ? dtLuckStats(cur.bb) : null;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "dt"
   }, /*#__PURE__*/React.createElement("div", {
@@ -707,7 +707,7 @@ function DotTab({
   }, /*#__PURE__*/React.createElement("div", {
     className: "ms-luck-widget"
   }, /*#__PURE__*/React.createElement(LuckSpeedometer, {
-    value: forming ? null : cur.bi
+    value: forming ? null : cur.bb
   }), /*#__PURE__*/React.createElement("button", {
     className: "ms-luck-open",
     "aria-label": "\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435 \u043E\u0431 \u0443\u0434\u0430\u0447\u0435",
@@ -804,7 +804,7 @@ function DtLuckSheet({
   }, a && /*#__PURE__*/React.createElement(DtSheetHead, {
     animal: a.id,
     mine: true,
-    sub: `${dtT(D.LUCK_DEGREES[cur.zone])} · ${cur.bi > 0 ? "+" : "−"}${Math.abs(cur.bi).toFixed(1)} BI · ${dtT("last")} ${D.LUCK_WINDOW.showdowns} ${dtT("showdowns")}`
+    sub: `${dtT(D.LUCK_DEGREES[cur.zone])} · ${cur.bb > 0 ? "+" : "−"}${Math.abs(cur.bb).toFixed(1)} BB · ${dtT("last")} ${D.LUCK_WINDOW.showdowns} ${dtT("showdowns")}`
   }), /*#__PURE__*/React.createElement("div", {
     className: "dt-ssec"
   }, /*#__PURE__*/React.createElement("h4", null, dtT("HOW IT'S COUNTED")), /*#__PURE__*/React.createElement("p", null, dtT("Your talisman is your luck. Not your style, not your skill — just how the deck has treated you lately.")), /*#__PURE__*/React.createElement("p", {
@@ -833,7 +833,7 @@ function DtLuckSheet({
       className: "dt-ladder-n"
     }, dtT(x.name).toUpperCase()), /*#__PURE__*/React.createElement("span", {
       className: "dt-ladder-z"
-    }, dtT(D.LUCK_DEGREES[l.zone])), /*#__PURE__*/React.createElement("b", null, l.range, " BI"));
+    }, dtT(D.LUCK_DEGREES[l.zone])), /*#__PURE__*/React.createElement("b", null, l.range, " BB"));
   })), /*#__PURE__*/React.createElement("div", {
     className: "dt-ssec",
     style: {
@@ -944,7 +944,7 @@ function DtLuckLines({
     fill: color
   })), !compact && /*#__PURE__*/React.createElement("div", {
     className: "dt-trend-legend"
-  }, /*#__PURE__*/React.createElement("span", null, "EV ", /*#__PURE__*/React.createElement("b", null, lines.ev[n - 1] > 0 ? '+' : '', lines.ev[n - 1], " BI")), /*#__PURE__*/React.createElement("span", null, "\u0424\u0430\u043A\u0442 ", /*#__PURE__*/React.createElement("b", null, lines.real[n - 1] > 0 ? '+' : '', lines.real[n - 1], " BI"))));
+  }, /*#__PURE__*/React.createElement("span", null, "EV ", /*#__PURE__*/React.createElement("b", null, lines.ev[n - 1] > 0 ? '+' : '', lines.ev[n - 1], " BB")), /*#__PURE__*/React.createElement("span", null, "\u0424\u0430\u043A\u0442 ", /*#__PURE__*/React.createElement("b", null, lines.real[n - 1] > 0 ? '+' : '', lines.real[n - 1], " BB"))));
 }
 Object.assign(window, {
   DotTab,

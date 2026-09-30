@@ -220,12 +220,12 @@
   // cold → hot; each step has a buy-in range and a one-line reading
   const LUCK_DEGREES = ["JINXED", "UNLUCKY", "EVEN", "LUCKY", "CHARMED", "GOLDEN"];
   const LUCK_LEVELS = [
-    { animal: "horse",   range: "≤ −4",       bi: -5.2, zone: 0, line: "Jinxed. The deck owes you — a lot." },
-    { animal: "dog",     range: "−4 … −1.5",  bi: -2.6, zone: 1, line: "Unlucky. Your good hands keep losing at showdown." },
-    { animal: "ox",      range: "−1.5 … +1.5", bi: 0.4, zone: 2, line: "Even. What you see is your game." },
-    { animal: "tiger",   range: "+1.5 … +4",  bi: 2.4,  zone: 3, line: "Lucky. A little above the odds." },
-    { animal: "rooster", range: "+4 … +6",    bi: 4.8,  zone: 4, line: "Charmed. Your draws keep getting there." },
-    { animal: "dragon",  range: "≥ +6",       bi: 6.9,  zone: 5, line: "Golden. This is as hot as it gets." },
+    { animal: "horse",   range: "≤ −300",       bb: -420, zone: 0, line: "Jinxed. The deck owes you — a lot." },
+    { animal: "dog",     range: "−300 … −100",  bb: -260, zone: 1, line: "Unlucky. Your good hands keep losing at showdown." },
+    { animal: "ox",      range: "−100 … +100", bb: 40, zone: 2, line: "Even. What you see is your game." },
+    { animal: "tiger",   range: "+100 … +300",  bb: 240,  zone: 3, line: "Lucky. A little above the odds." },
+    { animal: "rooster", range: "+300 … +450",    bb: 400,  zone: 4, line: "Charmed. Your draws keep getting there." },
+    { animal: "dragon",  range: "≥ +450",       bb: 500,  zone: 5, line: "Golden. This is as hot as it gets." },
   ];
   const LUCK_WINDOW = { showdowns: 10, hands: 100 };
   const LUCK_FORMING = { done: 6, need: 10 };
