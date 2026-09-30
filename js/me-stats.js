@@ -566,6 +566,22 @@ function MsPreview({
     className: "ms-preview-foot"
   }, children)));
 }
+function MsWidgetObject({
+  kind
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: 'ms-widget-object ms-widget-object-' + kind,
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: 'assets/stat-objects/' + kind + '.png?v=1',
+    alt: "",
+    width: "600",
+    height: "600",
+    loading: "lazy",
+    decoding: "async",
+    draggable: "false"
+  }));
+}
 function MsCashWidget({
   onOpen
 }) {
@@ -578,10 +594,8 @@ function MsCashWidget({
     suffix: "%",
     label: "\u043F\u043E\u0431\u0435\u0434 \u043D\u0430 \u0448\u043E\u0443\u0434\u0430\u0443\u043D\u0435",
     onOpen: onOpen,
-    visual: /*#__PURE__*/React.createElement(MsTrend, {
-      compact: true,
-      values: [42, 48, 45, 53, 49, c.wsd],
-      label: "\u041F\u043E\u0431\u0435\u0434\u044B \u043D\u0430 \u0448\u043E\u0443\u0434\u0430\u0443\u043D\u0435"
+    visual: /*#__PURE__*/React.createElement(MsWidgetObject, {
+      kind: "cash"
     })
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0420\u0423\u041A\u0418",
@@ -602,9 +616,8 @@ function MsMttWidget({
     suffix: "%",
     label: "\u043F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u0439 \u0432 \u043F\u0440\u0438\u0437\u044B",
     onOpen: onOpen,
-    visual: /*#__PURE__*/React.createElement(MsBars, {
-      small: true,
-      items: [['', 8], ['', 12], ['', 7], ['', 15], ['', 13], ['', 19]]
+    visual: /*#__PURE__*/React.createElement(MsWidgetObject, {
+      kind: "tournament"
     })
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0421\u042B\u0413\u0420\u0410\u041D\u041E",
