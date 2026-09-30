@@ -918,9 +918,10 @@ function MsMttScreen({
     className: "ms-tournament-prize"
   }, /*#__PURE__*/React.createElement("span", {
     className: "ms-eyebrow"
-  }, "\u0422\u0423\u0420\u041D\u0418\u0420\u041D\u042B\u0415", /*#__PURE__*/React.createElement("br", null), "\u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415"), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
-    value: period === '7d' ? 1563 : period === '30d' ? 3420 : 6840,
-    prefix: "$"
+  }, "\u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415"), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement("span", {
+    className: "ms-prize-currency"
+  }, "$"), /*#__PURE__*/React.createElement(MsNumber, {
+    value: period === '7d' ? 1563 : period === '30d' ? 3420 : 6840
   }))), /*#__PURE__*/React.createElement(window.TournamentTrophy3D, null)), /*#__PURE__*/React.createElement(MsHeading, null, "\u041E\u0422 \u0412\u0425\u041E\u0414\u0410 \u0414\u041E \u041F\u041E\u0411\u0415\u0414\u042B"), /*#__PURE__*/React.createElement("div", {
     className: "ms-tournament-scoreboard"
   }, steps.map(([label, value, key], i) => /*#__PURE__*/React.createElement("button", {
