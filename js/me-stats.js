@@ -541,7 +541,8 @@ function MsPreview({
   label,
   children,
   visual,
-  onOpen
+  onOpen,
+  periodLabel = '30 ДНЕЙ'
 }) {
   return /*#__PURE__*/React.createElement(MsReveal, {
     className: "ms-preview-wrap",
@@ -555,7 +556,7 @@ function MsPreview({
     "data-i18n": "off"
   }, /*#__PURE__*/React.createElement("div", {
     className: "ms-preview-head"
-  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", null), title), /*#__PURE__*/React.createElement("small", null, "30 \u0414\u041D\u0415\u0419")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", null), title), /*#__PURE__*/React.createElement("small", null, periodLabel)), /*#__PURE__*/React.createElement("div", {
     className: "ms-preview-main"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: value,
@@ -570,8 +571,9 @@ function MsPreview({
 function MsCashWidget({
   onOpen
 }) {
-  const c = meCareerFor("HOLD'EM", '30d');
+  const c = meCareerFor("HOLD'EM", 'all');
   return /*#__PURE__*/React.createElement(MsPreview, {
+    periodLabel: "\u0412\u0421\u0401 \u0412\u0420\u0415\u041C\u042F",
     kind: "cash",
     title: "\u041A\u042D\u0428",
     value: c.wsd,
@@ -595,6 +597,7 @@ function MsMttWidget({
   onOpen
 }) {
   return /*#__PURE__*/React.createElement(MsPreview, {
+    periodLabel: "\u0412\u0421\u0401 \u0412\u0420\u0415\u041C\u042F",
     kind: "mtt",
     title: "\u0422\u0423\u0420\u041D\u0418\u0420\u042B",
     value: 19,
@@ -607,10 +610,10 @@ function MsMttWidget({
     })
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0421\u042B\u0413\u0420\u0410\u041D\u041E",
-    value: 47
+    value: 86
   }), /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415",
-    value: 3420,
+    value: 6840,
     prefix: "$"
   }));
 }
@@ -672,7 +675,7 @@ function MsCashScreen({
   onClose
 }) {
   const [disc, setDisc] = React.useState("HOLD'EM"),
-    [period, setPeriod] = React.useState('30d'),
+    [period, setPeriod] = React.useState('all'),
     [ex, setEx] = React.useState(null),
     [hands, setHands] = React.useState(false),
     [hand, setHand] = React.useState(null),
@@ -813,7 +816,7 @@ function MsMttScreen({
   onClose
 }) {
   const history = useMsHandHistory('TOURNEY');
-  const [period, setPeriod] = React.useState('30d'),
+  const [period, setPeriod] = React.useState('all'),
     [ex, setEx] = React.useState(null),
     k = period === '7d' ? .15 : period === '30d' ? .55 : 1;
   const totals = period === '7d' ? [13, 5, 3, 0] : period === '30d' ? [47, 9, 4, 1] : [86, 16, 6, 2];
@@ -883,7 +886,7 @@ function MsMttScreen({
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "ms-journey-no"
-  }, "0", i + 1), /*#__PURE__*/React.createElement("span", null, l, /*#__PURE__*/React.createElement("i", null, /*#__PURE__*/React.createElement("b", {
+  }, "0", i + 1), /*#__PURE__*/React.createElement("span", null, l, i > 0 && /*#__PURE__*/React.createElement("i", null, /*#__PURE__*/React.createElement("b", {
     style: {
       width: Math.max(3, v / steps[0][1] * 100) + '%'
     }
@@ -1160,9 +1163,7 @@ function MeStatsWidget({
   return /*#__PURE__*/React.createElement("div", {
     className: "career-statistics ms-overview",
     "data-i18n": "off"
-  }, /*#__PURE__*/React.createElement(MsHeading, {
-    aside: "30 \u0434\u043D\u0435\u0439"
-  }, "\u041C\u041E\u042F \u0421\u0422\u0410\u0422\u0418\u0421\u0422\u0418\u041A\u0410"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(MsHeading, null, "\u041C\u041E\u042F \u0421\u0422\u0410\u0422\u0418\u0421\u0422\u0418\u041A\u0410"), /*#__PURE__*/React.createElement("div", {
     className: "ms-preview-list"
   }, /*#__PURE__*/React.createElement(MsCashWidget, {
     onOpen: onOpen
