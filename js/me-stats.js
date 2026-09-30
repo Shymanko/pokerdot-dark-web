@@ -556,7 +556,7 @@ function MsPreview({
     "data-i18n": "off"
   }, /*#__PURE__*/React.createElement("div", {
     className: "ms-preview-head"
-  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", null), title), /*#__PURE__*/React.createElement("small", null, periodLabel)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", null), title), periodLabel && /*#__PURE__*/React.createElement("small", null, periodLabel)), /*#__PURE__*/React.createElement("div", {
     className: "ms-preview-main"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: value,
@@ -573,7 +573,7 @@ function MsCashWidget({
 }) {
   const c = meCareerFor("HOLD'EM", 'all');
   return /*#__PURE__*/React.createElement(MsPreview, {
-    periodLabel: "\u0412\u0421\u0401 \u0412\u0420\u0415\u041C\u042F",
+    periodLabel: null,
     kind: "cash",
     title: "\u041A\u042D\u0428",
     value: c.wsd,
@@ -597,7 +597,7 @@ function MsMttWidget({
   onOpen
 }) {
   return /*#__PURE__*/React.createElement(MsPreview, {
-    periodLabel: "\u0412\u0421\u0401 \u0412\u0420\u0415\u041C\u042F",
+    periodLabel: null,
     kind: "mtt",
     title: "\u0422\u0423\u0420\u041D\u0418\u0420\u042B",
     value: 19,
@@ -621,6 +621,7 @@ function MsSpinWidget({
   onOpen
 }) {
   return /*#__PURE__*/React.createElement(MsPreview, {
+    periodLabel: null,
     kind: "spin",
     title: "SPIN & WIN",
     value: 100,
@@ -630,7 +631,7 @@ function MsSpinWidget({
     visual: /*#__PURE__*/React.createElement(window.SpinPrize3D, null)
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0418\u0413\u0420\u042B",
-    value: 227
+    value: 412
   }), /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u041F\u041E\u0411\u0415\u0414\u042B",
     value: 41,
@@ -918,7 +919,7 @@ function MsSpinScreen({
   onClose
 }) {
   const history = useMsHandHistory('SPIN & WIN');
-  const [period, setPeriod] = React.useState('30d'),
+  const [period, setPeriod] = React.useState('all'),
     [ex, setEx] = React.useState(null),
     k = period === '7d' ? .15 : period === '30d' ? .55 : 1;
   return /*#__PURE__*/React.createElement(MsScreen, {
