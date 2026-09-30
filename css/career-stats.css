@@ -208,7 +208,7 @@ button.ms-result-row{width:100%;background:none;color:inherit;text-align:left;cu
 .rb-rate-hero .rb-home-talisman{position:relative}
 .rb-rate-wrap.rb-rate-hero{margin:0;border:0;border-radius:0;padding:0;background:none;overflow:visible}
 .rb-home-talisman{position:relative;padding:0 0 18px;text-align:center}
-.rb-home-talisman>.rb-thermal{height:360px;height:clamp(300px,43dvh,400px)}
+.rb-home-talisman>.rb-thermal{height:360px;height:clamp(330px,47dvh,440px)}
 .rb-home-talisman-caption{margin-top:-10px;position:relative;pointer-events:none}
 .rb-home-talisman-caption h2{font-size:22px;font-weight:600;letter-spacing:.04em;margin:0 0 6px}
 .rb-home-talisman-caption>span{font-size:12px;color:var(--thermal)}
@@ -217,7 +217,7 @@ button.ms-result-row{width:100%;background:none;color:inherit;text-align:left;cu
 .rb-rate-wrap.rb-rate-hero .rb-rate-copy{width:100%}
 .rb-rate-wrap.rb-rate-hero .rb-rate-link{position:absolute;right:0;bottom:2px}
 .rb-rate-wrap.rb-rate-hero .rb-demo-caption{margin:6px 20px 0}
-.rb-rate-screen .rb-rate-hero>.rb-thermal{height:300px;width:100%;margin:0}
+.rb-rate-screen .rb-rate-hero>.rb-thermal{height:340px;width:100%;margin:0}
 .rb-rate-screen .rb-talisman-name{margin-top:0}
 #device-host .rb-rate-screen>.rb-rate-tabs{padding:20px 16px 16px}
 .rb-model-unavailable{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#ccd1da;font-size:20px}

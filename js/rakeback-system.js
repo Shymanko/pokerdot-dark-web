@@ -49,6 +49,130 @@ function rbCalculation({
   };
 }
 
+// Shared noise field: advected fire, crystalline surface frost and airborne particles.
+// All effects remain attached to the original zodiac mesh; no extra animal geometry.
+const RB_FX_NOISE = `
+float rbHash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+float rbNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(rbHash(i),rbHash(i+vec2(1,0)),f.x),mix(rbHash(i+vec2(0,1)),rbHash(i+vec2(1,1)),f.x),f.y);}
+float rbFbm(vec2 p){float n=0.;float a=.5;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<4;i++){n+=a*rbNoise(p);p=r*p*2.03+vec2(13.2,7.1);a*=.5;}return n;}
+vec2 rbCell(vec2 p){vec2 i=floor(p),f=fract(p);float a=8.,b=8.;for(int y=-1;y<=1;y++){for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(rbHash(i+g),rbHash(i+g+53.7));float d=length(g+o-f);if(d<a){b=a;a=d;}else if(d<b){b=d;}}}return vec2(a,b-a);}
+`;
+function rbAttachSurfaceFX(material, uniforms) {
+  material.onBeforeCompile = shader => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vRbSurface;').replace('#include <begin_vertex>', '#include <begin_vertex>\nvRbSurface = position;');
+    shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>\nuniform float rbCold;uniform float rbHot;uniform float rbTime;varying vec3 vRbSurface;\n${RB_FX_NOISE}`).replace('#include <color_fragment>', `#include <color_fragment>
+    vec2 rbP=vRbSurface.xy*4.8+vRbSurface.z*.17;
+    float rbGrain=rbFbm(rbP*3.2);
+    vec2 rbIce=rbCell(rbP*4.2+rbFbm(rbP*1.5)*.8);
+    float rbCrack=1.-smoothstep(.009,.045,rbIce.y);
+    float rbFrost=smoothstep(1.-rbCold*1.28,1.2-rbCold*1.18,rbGrain);
+    float rbVein=rbCrack*rbCold;
+    vec3 rbIceColor=mix(vec3(.035,.14,.23),vec3(.32,.57,.70),rbGrain);
+    diffuseColor.rgb=mix(diffuseColor.rgb,rbIceColor,rbFrost*.78);
+    diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.035,.14,.21),rbVein*.52);
+    diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.12,.73,.44),rbHot*.34);
+   `).replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>\nroughnessFactor=mix(roughnessFactor,.19+rbGrain*.30,rbFrost);`).replace('#include <metalnessmap_fragment>', `#include <metalnessmap_fragment>\nmetalnessFactor=mix(metalnessFactor,.12,rbFrost*.9);`).replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+    float rbEdge=pow(1.-abs(dot(normal,normalize(vViewPosition))),2.6);
+    totalEmissiveRadiance+=vec3(.10,.38,.57)*(rbVein*.19+rbEdge*rbCold*.27);
+    float rbCoal=smoothstep(.58,.81,rbFbm(rbP*2.4));
+    totalEmissiveRadiance+=vec3(1.,.085,.008)*rbHot*rbHot*(.045+rbCoal*.48+rbEdge*.48);
+   `);
+  };
+  material.customProgramCacheKey = () => 'rb-surface-frost-v2';
+}
+function rbCreateAtmosphere(T, pivot, mini, uniforms, geometries, materials) {
+  const group = new T.Group();
+  pivot.add(group);
+  const quad = new T.PlaneGeometry(3.4, 3.6);
+  geometries.push(quad);
+  const vertex = `varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
+  const fragment = `varying vec2 vUv;uniform float rbTime;uniform float rbHot;uniform float rbCold;uniform float layer;${RB_FX_NOISE}
+ void main(){
+  vec2 p=(vUv-.5)*vec2(3.4,3.6);
+  float t=rbTime;float hot=rbHot;float cold=rbCold;
+  vec2 flow=vec2(p.x*3.1,p.y*3.8-t*1.22+layer*8.);
+  float turbulence=rbFbm(flow+vec2(rbFbm(flow*.57+t*.11)*2.4,0));
+  float fine=rbFbm(flow*2.1-vec2(0,t*.5));
+  vec2 q=p;
+  float warp=rbFbm(vec2(p.x*4.7,p.y*3.1-t*1.25));
+  q.x+=(rbFbm(vec2(p.y*4.-t*.9,p.x*3.+layer*5.))-.5)*(.08+max(p.y,0.)*.20);
+  q.y-=hot*(.10+warp*.36)*smoothstep(-.8,.8,p.y);
+  float oct=max(max(abs(q.x),abs(q.y)),(abs(q.x)+abs(q.y))*.7071);
+  float rim=exp(-pow((oct-.83)/(.055+hot*.12),2.));
+  float filaments=rbFbm(vec2(q.x*8.,q.y*4.8-t*1.9)+turbulence*2.2);
+  float fuel=rim*(.48+hot*.52);
+  float density=smoothstep(.22,.95,fuel+filaments*.52-turbulence*.18);
+  density*=smoothstep(-1.04,-.8,p.y)*(1.-smoothstep(1.20,1.47,p.y));
+  float border=smoothstep(0.,.12,vUv.x)*smoothstep(0.,.12,1.-vUv.x)*smoothstep(0.,.06,vUv.y)*smoothstep(0.,.1,1.-vUv.y);
+  float fire=density*hot*border;
+  float corona=exp(-pow((oct-.85)/.24,2.))*hot*hot*.13*border;
+  if(layer>0.5){fire*=smoothstep(.83,1.04,oct)*.48;}
+  vec3 fireColor=mix(vec3(.58,.018,.001),vec3(1.,.22,.012),smoothstep(.06,.38,density));
+  fireColor=mix(fireColor,vec3(1.,.56,.12),smoothstep(.46,.84,density));
+  fireColor=mix(fireColor,vec3(1.,.96,.73),smoothstep(.88,1.,density));
+  // Cold vapor rolls beneath the face instead of surrounding it with repeated spikes.
+  float mist=rbFbm(vec2(p.x*2.4+t*.12,p.y*5.+t*.16));
+  float fog=exp(-pow((p.y+.77+sin(p.x*3.+t*.3)*.08)/.19,2.))*exp(-p.x*p.x*.9)*smoothstep(.30,.75,mist)*cold*.24*border;
+  float a=fire+fog+corona;
+  if(a<.002)discard;
+  vec3 color=(fireColor*fire+vec3(.45,.76,.9)*fog+vec3(.95,.12,.006)*corona)/max(a,.001);
+  gl_FragColor=vec4(color,a);
+ }`;
+  [0, 1].forEach(layer => {
+    const mat = new T.ShaderMaterial({
+      name: 'MAT_RB_AdvectedAtmosphere',
+      transparent: true,
+      depthWrite: false,
+      side: T.DoubleSide,
+      uniforms: {
+        ...uniforms,
+        layer: {
+          value: layer
+        }
+      },
+      vertexShader: vertex,
+      fragmentShader: fragment
+    });
+    materials.push(mat);
+    const mesh = new T.Mesh(quad, mat);
+    mesh.position.set(0, 0, layer ? .22 : -.25);
+    mesh.renderOrder = layer ? 3 : 0;
+    group.add(mesh);
+  });
+  const count = mini ? 24 : 76,
+    geo = new T.BufferGeometry();
+  const positions = new Float32Array(count * 3),
+    seeds = new Float32Array(count * 4);
+  for (let i = 0; i < count; i++) {
+    seeds.set([i * .61803398875 % 1, (i * .38196601125 + .13) % 1, (i * .754877666 + .23) % 1, (i * .56984029 + .3) % 1], i * 4);
+  }
+  geo.setAttribute('position', new T.BufferAttribute(positions, 3));
+  geo.setAttribute('seed', new T.BufferAttribute(seeds, 4));
+  geometries.push(geo);
+  const sparkMat = new T.ShaderMaterial({
+    name: 'MAT_RB_SparksAndIceDust',
+    transparent: true,
+    depthWrite: false,
+    blending: T.AdditiveBlending,
+    uniforms: {
+      ...uniforms,
+      rbPixel: {
+        value: Math.min(devicePixelRatio || 1, mini ? 1.5 : 2)
+      }
+    },
+    vertexShader: `attribute vec4 seed;uniform float rbTime;uniform float rbHot;uniform float rbCold;uniform float rbPixel;varying float vAlpha;varying float vHot;
+ void main(){float hot=rbHot;float cold=rbCold;float life=fract(rbTime*(.12+seed.z*.18)+seed.y);float theta=seed.x*6.283185;vec3 p=vec3(cos(theta)*.85,sin(theta)*.72,.15+seed.z*.22);p.x+=sin(life*5.+seed.z*20.)*(.04+life*.22);p.y+=life*life*(1.3+hot*.7)*(hot>0.?1.:-.3);p.z+=life*.10;vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;gl_PointSize=clamp((1.+seed.w*2.6)*rbPixel*3./-mv.z,1.,7.);vAlpha=sin(life*3.14159)*(.2+seed.z*.8)*max(hot*hot,cold*.45);vHot=hot;}`,
+    fragmentShader: `varying float vAlpha;varying float vHot;void main(){vec2 p=gl_PointCoord-.5;float d=length(p);float a=(1.-smoothstep(.06,.5,d))*vAlpha;if(a<.006)discard;vec3 c=mix(vec3(.45,.78,1.),vec3(1.,.48,.09),step(.01,vHot));c=mix(c,vec3(1.),(1.-smoothstep(0.,.14,d))*.6);gl_FragColor=vec4(c,a);}`
+  });
+  materials.push(sparkMat);
+  const points = new T.Points(geo, sparkMat);
+  points.frustumCulled = false;
+  points.renderOrder = 4;
+  group.add(points);
+  return group;
+}
+
 // Real GLB geometry. Temperature alters materials and attached 3D ice/fire effects.
 function RbThermalModel({
   id,
@@ -84,10 +208,18 @@ function RbThermalModel({
       prev = 0;
     const ownedGeometry = [],
       ownedMaterials = [],
-      materials = [],
-      crystals = [],
-      flames = [],
-      embers = [];
+      materials = [];
+    const uniforms = {
+      rbCold: {
+        value: 0
+      },
+      rbHot: {
+        value: 0
+      },
+      rbTime: {
+        value: 0
+      }
+    };
     if (!RB_READY_MODELS.has(id)) {
       setStatus('unavailable');
       return;
@@ -114,11 +246,9 @@ function RbThermalModel({
       env = CH.envFor(renderer);
       scene.environment = env;
       const camera = new T.PerspectiveCamera(34, 1, .1, 30);
-      camera.position.set(0, 0, mini ? 5.25 : 3.7);
+      camera.position.set(0, 0, mini ? 5.25 : 4.25);
       const pivot = new T.Group();
       scene.add(pivot);
-      fx = new T.Group();
-      pivot.add(fx);
       const key = new T.DirectionalLight('#e4f0ff', 2.8);
       key.position.set(-3, 4, 5);
       scene.add(key);
@@ -142,71 +272,7 @@ function RbThermalModel({
         visible = e.isIntersecting;
       });
       visibility.observe(cv);
-      const crystalGeo = new T.ConeGeometry(1, 1, 5);
-      ownedGeometry.push(crystalGeo);
-      const crystalMat = new T.MeshPhysicalMaterial({
-        color: '#8cdfff',
-        metalness: .12,
-        roughness: .13,
-        transmission: .18,
-        thickness: .3,
-        transparent: true,
-        opacity: .66,
-        emissive: '#1f627f',
-        emissiveIntensity: .07
-      });
-      ownedMaterials.push(crystalMat);
-      for (let i = 0; i < 18; i++) {
-        const a = i * 2.39996,
-          r = i < 14 ? .93 : .78,
-          k = new T.Mesh(crystalGeo, crystalMat);
-        k.position.set(Math.cos(a) * r, Math.sin(a) * r, .10 + i % 3 * .09);
-        k.rotation.set(.3 * Math.sin(a), .35 * Math.cos(a), a - Math.PI / 2);
-        k.userData.size = .05 + i % 4 * .025;
-        fx.add(k);
-        crystals.push(k);
-      }
-      const flameGeo = new T.PlaneGeometry(.38, .90, 1, 1);
-      ownedGeometry.push(flameGeo);
-      const flameMat = new T.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        blending: T.AdditiveBlending,
-        side: T.DoubleSide,
-        uniforms: {
-          time: {
-            value: 0
-          },
-          heat: {
-            value: 0
-          }
-        },
-        vertexShader: 'varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-        fragmentShader: `varying vec2 vUv;uniform float time;uniform float heat;
-    void main(){float y=vUv.y;float sway=sin(y*9.-time*2.6)*.065*y+sin(y*17.+time*1.7)*.025;float x=abs(vUv.x-.5+sway);float width=(1.-y)*.43;float a=smoothstep(width,width*.35,x)*sin(y*3.14159)*heat;vec3 c=mix(vec3(1.,.20,.025),vec3(1.,.85,.35),pow(1.-y,2.));gl_FragColor=vec4(c,a*.7);}`
-      });
-      ownedMaterials.push(flameMat);
-      for (let i = 0; i < (mini ? 8 : 16); i++) {
-        const f = new T.Mesh(flameGeo, flameMat),
-          a = i * 2.39996;
-        f.position.set(Math.cos(a) * .9, Math.sin(a) * .75 + .2, -.22);
-        f.userData.phase = i * .63;
-        fx.add(f);
-        flames.push(f);
-      }
-      const emberGeo = new T.SphereGeometry(.014, 5, 4),
-        emberMat = new T.MeshBasicMaterial({
-          color: '#ffbb63',
-          transparent: true,
-          opacity: .7
-        });
-      ownedGeometry.push(emberGeo);
-      ownedMaterials.push(emberMat);
-      for (let i = 0; i < (mini ? 4 : 14); i++) {
-        const e = new T.Mesh(emberGeo, emberMat);
-        fx.add(e);
-        embers.push(e);
-      }
+      fx = rbCreateAtmosphere(T, pivot, mini, uniforms, ownedGeometry, ownedMaterials);
       dtLoadModel(id).then(gltf => {
         if (cancelled) return;
         model = gltf.scene.clone(true);
@@ -216,6 +282,7 @@ function RbThermalModel({
             const cloned = original.map(mat => {
               const m = mat.clone();
               m.envMapIntensity = 1.1;
+              rbAttachSurfaceFX(m, uniforms);
               materials.push({
                 m,
                 color: m.color.clone(),
@@ -241,9 +308,7 @@ function RbThermalModel({
       }).catch(() => {
         if (!cancelled) setStatus('error');
       });
-      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches,
-        coldColor = new T.Color('#72bce7'),
-        hotColor = new T.Color('#ed672c');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const render = t => {
         if (cancelled) return;
         raf = requestAnimationFrame(render);
@@ -253,39 +318,12 @@ function RbThermalModel({
         shown += (live.current.temperature - shown) * (reduced ? 1 : Math.min(1, dt * 5));
         const cold = Math.max(0, (4 - shown) / 4),
           hot = Math.max(0, (shown - 4) / 5);
-        materials.forEach(({
-          m,
-          color,
-          emissive,
-          roughness,
-          metalness
-        }) => {
-          m.color.copy(color).lerp(coldColor, cold * .3).lerp(hotColor, hot * .45);
-          m.roughness = roughness + cold * .08;
-          m.metalness = metalness * (1 - cold * .18);
-          if (m.emissive) {
-            m.emissive.copy(emissive).lerp(hotColor, hot);
-            m.emissiveIntensity = hot * .72;
-          }
-        });
-        crystals.forEach((k, i) => {
-          k.visible = cold > .04;
-          k.scale.set(k.userData.size * cold, k.userData.size * 2.8 * cold, k.userData.size * cold);
-        });
-        flameMat.uniforms.time.value = reduced ? 0 : t / 1000;
-        flameMat.uniforms.heat.value = Math.max(0, (hot - .15) / .85);
-        flames.forEach((f, i) => {
-          f.visible = hot > .15;
-          f.scale.set(.55 + hot * .75, (.28 + hot) * (reduced ? 1 : 1 + Math.sin(t / 650 + i) * .14), 1);
-        });
-        embers.forEach((e, i) => {
-          const life = reduced ? i % 5 / 5 : (t / 2400 + i * .173) % 1;
-          e.visible = hot > .35;
-          e.position.set(Math.sin(i * 7.1) * 1.1 + Math.sin(life * 4 + i) * .08, -.5 + life * 2.4, .12 + Math.cos(i) * .2);
-          e.scale.setScalar((1 - life) * hot);
-        });
-        glow.color.set(cold > 0 ? '#69caff' : '#ff6028');
-        glow.intensity = cold * .8 + hot * 2.1;
+        uniforms.rbCold.value = cold;
+        uniforms.rbHot.value = hot;
+        uniforms.rbTime.value = reduced ? 3.7 : t / 1000;
+        fx.visible = cold > .005 || hot > .005;
+        glow.color.set(cold > 0 ? '#95deff' : '#ff7d32');
+        glow.intensity = cold * .6 + hot * (1.3 + (reduced ? 0 : Math.sin(t * .0031) * .10 + Math.sin(t * .0077) * .06));
         const m = motion.current;
         pivot.rotation.set(m.pitch, m.yaw + (reduced || m.drag ? 0 : Math.sin(t / 4200) * .045), 0);
         pivot.position.y = reduced ? 0 : Math.sin(t / 3200) * .024;
