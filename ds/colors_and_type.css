@@ -1,0 +1,177 @@
+/* =====================================================================
+   CARDOMANCER — Foundations
+   Pixel/dot-matrix UI inspired by Nothing OS, with playing-card heritage.
+   ===================================================================== */
+
+/* Roboto used only for tiny corner glyphs (e.g. card-corner numerals)
+   – keep it as fallback / paired role. Loaded via Google Fonts. */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap");
+
+:root {
+  /* ─── Brand red — "Arcanium" red, the single hot color in the system */
+  --cm-red:        rgb(215, 25, 33);   /* primary action / call-to-action */
+  --cm-red-hot:    rgb(255, 0, 0);     /* heart / diamond suit fill */
+  --cm-red-deep:   rgb(168, 18, 25);   /* pressed state */
+
+  /* ─── Neutral spine: pure black + lifted greys + white */
+  --cm-bg:         rgb(0, 0, 0);       /* canvas */
+  --cm-surface-1:  rgb(26, 29, 28);    /* deep card surface */
+  --cm-surface-2:  rgb(38, 38, 38);    /* raised module */
+  --cm-surface-3:  rgb(50, 50, 50);    /* HP panel / hand tray */
+  --cm-surface-4:  rgb(252, 250, 254); /* light overlay tint */
+  --cm-fg:         rgb(255, 255, 255); /* primary text + dot-matrix glyphs */
+  --cm-fg-mute:    rgba(255, 255, 255, 0.75);
+  --cm-fg-dim:     rgba(255, 255, 255, 0.45);
+  --cm-ink:        rgb(0, 0, 0);       /* text on white cards */
+
+  /* ─── Suit colors (canonical playing-card palette) */
+  --cm-suit-hearts:   var(--cm-red-hot);
+  --cm-suit-diamonds: var(--cm-red);
+  --cm-suit-spades:   rgb(0, 0, 0);
+  --cm-suit-clubs:    rgb(0, 0, 0);
+
+  /* ─── Hero accents (per suit / hero) */
+  --cm-kai-gold:    #E8C36B;   /* Kai · Diamonds — gold/blue */
+  --cm-kai-blue:    #6FA8FF;
+  --cm-lira-rose:   #E85A7A;   /* Lira · Hearts — red/rose */
+  --cm-taren-violet:#8E5CFF;   /* Taren · Spades — violet/black */
+
+  /* ─── Shadows (soft, low, all from the figma) */
+  --cm-shadow-card:  0 4.8px 4.8px rgba(3,3,3,0.25);
+  --cm-shadow-inner: 0 2.7px 2.7px rgba(0,0,0,0.25);
+  --cm-shadow-tray:  0 -3px 4px rgba(64,64,64,0.31);
+
+  /* ─── Radii */
+  --cm-r-card:    5px;     /* playing card corner */
+  --cm-r-pill:    125px;   /* big capsule buttons */
+  --cm-r-tray:    20px;    /* hand tray / sheet */
+  --cm-r-screen:  22px;    /* phone bezel inner */
+  --cm-r-chip:    7px;     /* HP chip / banner */
+
+  /* ─── Spacing scale (tight, mobile-first) */
+  --cm-s-1:  4px;
+  --cm-s-2:  8px;
+  --cm-s-3:  12px;
+  --cm-s-4:  16px;
+  --cm-s-5:  24px;
+  --cm-s-6:  32px;
+  --cm-s-8:  48px;
+
+  /* ─── Type
+     Geist Mono carries everything brand-y. Roboto Bold is used ONLY at
+     micro-sizes for card-corner numerals (matches the figma usage). */
+  --cm-font-display: "Chakra Petch", "Geist Mono", ui-monospace, monospace;
+  --cm-font-ui:      "Chakra Petch", "Geist Mono", ui-monospace, monospace;
+  --cm-font-corner:  "Roboto", system-ui, sans-serif;
+
+  /* ─── Type scale — semantic
+     The native UI is dense + tiny. These sizes reflect the SCREEN
+     rendering, scaled up ~4× from the figma's micro-px values for
+     readable design-system / web use. */
+  --cm-h1: 56px;   /* hero headline */
+  --cm-h2: 40px;   /* section title */
+  --cm-h3: 28px;   /* sub-section / dialog title */
+  --cm-h4: 20px;   /* in-game label (e.g. ARCANIUM) */
+  --cm-body: 16px;
+  --cm-small: 13px;
+  --cm-micro: 11px; /* HUD micro / 08/12 mana */
+}
+
+/* ─── Element defaults ─────────────────────────────────────────────── */
+
+html, body {
+  background: var(--cm-bg);
+  color: var(--cm-fg);
+  font-family: var(--cm-font-ui);
+  font-size: var(--cm-body);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, .cm-h1 {
+  font-family: var(--cm-font-display);
+  font-size: var(--cm-h1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0;
+}
+h2, .cm-h2 {
+  font-family: var(--cm-font-display);
+  font-size: var(--cm-h2);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0;
+}
+h3, .cm-h3 {
+  font-family: var(--cm-font-display);
+  font-size: var(--cm-h3);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+h4, .cm-h4 {
+  font-family: var(--cm-font-display);
+  font-size: var(--cm-h4);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+p, .cm-body { font-size: var(--cm-body); margin: 0; }
+.cm-small   { font-size: var(--cm-small); color: var(--cm-fg-mute); }
+.cm-micro   { font-size: var(--cm-micro); color: var(--cm-fg-mute);
+              letter-spacing: 0.05em; }
+
+code, .cm-mono { font-family: var(--cm-font-corner); font-weight: 700; }
+
+/* ─── Reusable primitives ──────────────────────────────────────────── */
+
+.cm-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--cm-s-2);
+  padding: 10px 18px;
+  border-radius: var(--cm-r-pill);
+  background: var(--cm-red);
+  color: var(--cm-fg);
+  font-family: var(--cm-font-display);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 0;
+  cursor: pointer;
+  box-shadow: var(--cm-shadow-card);
+  transition: transform 80ms ease, background 120ms ease;
+}
+.cm-pill:hover  { background: #E51F28; }
+.cm-pill:active { background: var(--cm-red-deep); transform: translateY(1px); }
+.cm-pill--ghost { background: var(--cm-fg); color: var(--cm-ink); }
+
+.cm-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--cm-surface-3);
+  border-radius: var(--cm-r-chip);
+  padding: 4px 8px;
+  font-size: var(--cm-micro);
+  color: var(--cm-fg);
+}
+
+.cm-card {
+  background: var(--cm-fg);
+  color: var(--cm-ink);
+  border-radius: var(--cm-r-card);
+  box-shadow: var(--cm-shadow-card);
+}
+
+/* dot-matrix HP/mana bar — built from circles, not a solid fill */
+.cm-dotbar {
+  display: inline-flex; gap: 1px;
+}
+.cm-dotbar > i {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--cm-fg);
+  display: inline-block;
+}
+.cm-dotbar > i.is-empty { background: var(--cm-fg-dim); }

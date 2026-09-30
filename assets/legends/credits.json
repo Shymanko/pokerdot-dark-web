@@ -1,0 +1,72 @@
+[
+  {
+    "player": 24,
+    "src": "assets/legends/Carlos_Mortensen_2015.jpg",
+    "author": "World Poker Tour",
+    "source": "https://commons.wikimedia.org/wiki/File:Carlos_Mortensen_2015.jpg",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "position": "50% 15%",
+    "presentation": "Original file; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 4,
+    "src": "assets/legends/Chris_Moneymaker_EPT4.jpg",
+    "author": "Equipo Unibet from Spain and Portugal",
+    "source": "https://commons.wikimedia.org/wiki/File:Chris_Moneymaker_EPT4.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "position": "50% 15%",
+    "presentation": "Original file; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 48,
+    "src": "assets/legends/Doyle_Brunson_2010.jpg",
+    "author": "flipchip • lasvegasvegas.com",
+    "source": "https://commons.wikimedia.org/wiki/File:Doyle_Brunson_2010.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "position": "50% 15%",
+    "presentation": "Original file; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 21,
+    "src": "assets/legends/Johnny_Chan_2008.jpg",
+    "author": "Gene Bromberg",
+    "source": "https://commons.wikimedia.org/wiki/File:Johnny_Chan_2008.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "position": "50% 15%",
+    "presentation": "Original file; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 39,
+    "src": "assets/legends/Stu_ungar.jpg",
+    "author": "Shwobopho",
+    "source": "https://commons.wikimedia.org/wiki/File:Stu_ungar.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "position": "50% 5%",
+    "presentation": "Original file; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 7,
+    "src": "assets/legends/Jerry_Yang_2008.jpg",
+    "author": "Gene Bromberg",
+    "source": "https://commons.wikimedia.org/wiki/File:Jerry_Yang_2008.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "position": "50% 15%",
+    "presentation": "Wikimedia 960px thumbnail; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  },
+  {
+    "player": 41,
+    "src": "assets/legends/Joe_Hachem_2008.jpg",
+    "author": "Matt Waldron",
+    "source": "https://commons.wikimedia.org/wiki/File:Joe_Hachem_2008.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "position": "50% 10%",
+    "presentation": "Wikimedia 960px thumbnail; CSS grayscale, crop and edge fade. Portrait taken at a different event from the historical hand."
+  }
+]

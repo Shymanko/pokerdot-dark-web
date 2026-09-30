@@ -1,0 +1,132 @@
+[
+  {
+    "level": 1,
+    "rank": "2",
+    "id": "legend-1",
+    "name": "Речной след",
+    "motif": "river",
+    "tone": "#bea17a",
+    "version": 2,
+    "src": "assets/legend-frames/legend-1.png"
+  },
+  {
+    "level": 8,
+    "rank": "3",
+    "id": "legend-8",
+    "name": "Компас",
+    "motif": "compass",
+    "tone": "#d1e2e8",
+    "version": 2,
+    "src": "assets/legend-frames/legend-8.png"
+  },
+  {
+    "level": 12,
+    "rank": "4",
+    "id": "legend-12",
+    "name": "Золотой билет",
+    "motif": "ticket",
+    "tone": "#f8dda0",
+    "version": 2,
+    "src": "assets/legend-frames/legend-12.png"
+  },
+  {
+    "level": 16,
+    "rank": "5",
+    "id": "legend-16",
+    "name": "Ледяная грань",
+    "motif": "ice",
+    "tone": "#bbecff",
+    "version": 2,
+    "src": "assets/legend-frames/legend-16.png"
+  },
+  {
+    "level": 19,
+    "rank": "6",
+    "id": "legend-19",
+    "name": "Пламя Аризоны",
+    "motif": "flame",
+    "tone": "#eea35a",
+    "version": 2,
+    "src": "assets/legend-frames/legend-19.png"
+  },
+  {
+    "level": 24,
+    "rank": "7",
+    "id": "legend-24",
+    "name": "Дорога легенды",
+    "motif": "laurel",
+    "tone": "#f8dda0",
+    "version": 2,
+    "src": "assets/legend-frames/legend-24.png"
+  },
+  {
+    "level": 25,
+    "rank": "8",
+    "id": "legend-25",
+    "name": "Финальный круг",
+    "motif": "octagon",
+    "tone": "#f8dda0",
+    "version": 2,
+    "src": "assets/legend-frames/legend-25.png"
+  },
+  {
+    "level": 32,
+    "rank": "9",
+    "id": "legend-32",
+    "name": "Звезда покера",
+    "motif": "nova",
+    "tone": "#b4a0d2",
+    "version": 2,
+    "src": "assets/legend-frames/legend-32.png"
+  },
+  {
+    "level": 36,
+    "rank": "10",
+    "id": "legend-36",
+    "name": "Техасское золото",
+    "motif": "western",
+    "tone": "#f8dda0",
+    "version": 2,
+    "src": "assets/legend-frames/legend-36.png"
+  },
+  {
+    "level": 38,
+    "rank": "J",
+    "id": "legend-38",
+    "name": "Двойная корона",
+    "motif": "jade",
+    "tone": "#82c2a1",
+    "version": 2,
+    "src": "assets/legend-frames/legend-38.png"
+  },
+  {
+    "level": 42,
+    "rank": "Q",
+    "id": "legend-42",
+    "name": "Матадор",
+    "motif": "queen",
+    "tone": "#d74658",
+    "version": 2,
+    "src": "assets/legend-frames/legend-42.png"
+  },
+  {
+    "level": 47,
+    "rank": "K",
+    "id": "legend-47",
+    "name": "Королевская",
+    "motif": "king",
+    "tone": "#f8dda0",
+    "version": 2,
+    "src": "assets/legend-frames/legend-47.png"
+  },
+  {
+    "level": 51,
+    "rank": "A",
+    "id": "legend-51",
+    "name": "Возвращение",
+    "motif": "ace",
+    "tone": "#bbecff",
+    "version": 2,
+    "src": "assets/legend-frames/legend-51.png"
+  }
+]

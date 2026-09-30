@@ -1,0 +1,210 @@
+/* Dark fork — surface-only theme. Geometry, type scale and product states stay intact. */
+:root {
+  --dot-canvas:#07080a;
+  --dot-surface:#0d0f12;
+  --dot-raised:#121418;
+  --dot-line:rgba(231,237,247,.09);
+  --dot-divider:rgba(231,237,247,.065);
+  --dot-ink:#f0f2f5;
+  --dot-muted:#a1a7b2;
+}
+#device-host [data-app-root],
+#device-host :is(.pd-career,.me-screen,.me-overlay,.ms-screen,.ps-detail,.hf-collection,.rb-collection,.rb-story) {
+  background:var(--dot-canvas)!important;
+}
+#device-host .pd-career :is(.dt,.hb,.hf) {
+  background:radial-gradient(ellipse 90% 290px at 50% 170px,#18202a30,transparent 85%),var(--dot-canvas)!important;
+}
+#device-host .ps-detail {background:var(--dot-canvas)!important}
+/* A thin edge describes surfaces; large gray slabs no longer carry the hierarchy. */
+#device-host :is(.ms-preview,.ms-style-grid,.ms-chart-panel,.ms-hand-list,.ms-records .me-record,
+.ms-active-races>section,.ms-hands-card,.hb-beat,.hb-faq,.dt-luck-card,.dt-box,
+.hf-collection-entry,.me-record-card,.ps-identity,.ps-menu,.ps-support,.ps-control-card,
+.ps-help-methods,.ps-rg-break,.ps-rg-tips,.ps-rg-faq,.ps-limit-info) {
+  background:linear-gradient(145deg,#101215 0%,#0b0d10 78%)!important;
+  border-color:var(--dot-line)!important;
+  box-shadow:inset 0 1px 0 #ffffff03,0 8px 24px #00000018!important;
+}
+#device-host .ms-preview {
+  background:radial-gradient(ellipse 65% 110% at 100% 30%,color-mix(in srgb,var(--ms-color) 6%,transparent),transparent 80%),linear-gradient(140deg,#101215,#0b0d10 75%)!important;
+}
+#device-host .dt-luck-card:after {background:radial-gradient(ellipse at 100% 0,#c0cad609,transparent 70%)!important}
+#device-host .ps-identity {background:radial-gradient(ellipse 65% 90% at 100% 0,#57141c17,transparent 80%),linear-gradient(145deg,#111316,#0b0d10)!important}
+#device-host .ps-menu,#device-host .ps-help-methods {background:#0c0e11!important}
+#device-host .ps-support {background:linear-gradient(120deg,#111215,#0b0d10)!important}
+#device-host .ps-icon,#device-host .ps-contact-icon {color:#b8bec9}
+#device-host .ps-support-icon {color:#e4e7ee}
+#device-host :is(.ps-row-copy small,.ps-help-intro,.ps-contact-row small,.ps-rg-content p,
+.ms-preview-main>div:first-child>span,.ms-sub,.ms-metric>span,.hb-beat-meta) {color:var(--dot-muted)}
+#device-host :is(.ps-row+.ps-row:before,.ms-preview-foot,.ms-hands-card>header,
+.ms-hands-all,.ps-contact-row+.ps-contact-row,.ps-rg-tip+.ps-rg-tip,
+.ps-rg-faq>div+div,.hb-faq-item+.hb-faq-item,.hb-beat-footer) {border-color:var(--dot-divider)!important}
+#device-host .ps-row+.ps-row:before {background:var(--dot-divider)}
+#device-host .ps-rake {border-color:var(--dot-line)}
+#device-host .ps-responsible>.ps-content.ps-rg-content>.ps-rg-intro {
+  background:radial-gradient(ellipse 65% 55% at 50% 30%,#78869712,transparent 85%),#0c0e11!important;
+  border-color:var(--dot-line)!important;
+}
+#device-host :is(.ps-help-sheet,.ps-limit-options) {
+  background:#101216!important;border-color:#ffffff13!important;
+  box-shadow:0 -18px 70px #0008!important;
+}
+#device-host .ps-limit-select {background:#101216;border-color:#ffffff16}
+#device-host .ps-limit-select[aria-expanded=true] {background:#111317;border-color:#ffffff32}
+#device-host .ps-limit-options button[aria-selected=true],
+#device-host .ps-limit-options button:focus-visible {background:#d719211a;color:#fff}
+#device-host .ps-limit-options {box-shadow:0 18px 48px #000b!important}
+#device-host .ps-security .ps-security-status {background:#12302288!important;border-color:#3c97654a!important;color:#9ad1b4!important}
+#device-host :is(.ps-security-action,.ps-limit-start) {
+  background:linear-gradient(180deg,#e22935,#c41825)!important;
+  border-color:#f14a5440!important;box-shadow:inset 0 1px 0 #ffffff10!important;
+}
+#device-host :is(.hf-entry-action,.ms-hands-all,.hb-beat-footer) {background:#ffffff02!important}
+#device-host :is(.ms-spin-history>span,.dt-dev) {background:#101216!important;border-color:var(--dot-line)!important}
+#device-host .ms-spin-history>span[data-rare=true] {background:#c9ad690b!important}
+#device-host .pd-career .hf .hf-primary-wrap:not([data-ready=true]) .hf-primary {
+  background:linear-gradient(180deg,#16191e,#101216)!important;color:#b8bfca!important;
+}
+#device-host :is(.rb-detail-footer,.rb-route-header) {background:var(--dot-canvas)!important}
+#device-host .rb-iso-panel {background:linear-gradient(transparent,var(--dot-canvas) 20%)!important}
+#device-host .rb-story-top::before {background:linear-gradient(var(--dot-canvas) 65%,#07080af5 86%,transparent)!important}
+#device-host .rb-unlock-confirm-card {background:linear-gradient(#151a1c,#0c1012)!important}
+#device-host .tt-backdrop {background:radial-gradient(ellipse 90% 65% at 50% 35%,#19212a 0%,#0c0f13 48%,#07080a 80%)!important}
+/* Restrained interaction feedback; no changes to disabled controls or semantics. */
+@media(hover:hover) {
+  #device-host :is(.ms-preview,.hf-collection-entry,.dt-luck-card,.ps-support):hover {border-color:#ffffff25!important}
+  #device-host :is(.ps-row,.ps-contact-row,.ps-game-row,.hh-hand-row):hover {background:#ffffff04!important}
+}
+#device-host :is(.ps-row,.ps-contact-row,.ps-game-row,.hh-hand-row):active {background:#ffffff05!important}
+#device-host button:focus-visible {outline:2px solid #c4cad4;outline-offset:3px}
+#device-host .pd-nav-item[data-active=true] .pd-nav-label {color:#fff!important}
+
+#device-host :is(.ps-profile-screen,[data-hand-history=true]) {background:var(--dot-canvas)!important}
+#device-host .ps-profile-ambient {background:radial-gradient(ellipse 90% 70% at 50% 0%,#d7192108,transparent 70%)!important}
+#device-host .dot-sheet {background:#101216!important;border-color:var(--dot-line)!important}
+#device-host .dot-segment {background:#ffffff04!important;border-color:var(--dot-line)!important}
+#device-host :is(.me-back,.ps-limit-back) {background:#ffffff04!important;border-color:#ffffff17!important}
+
+/* One header footprint for every full-screen route, including nested screens. */
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top) {
+ position:relative!important;top:auto!important;left:auto!important;right:auto!important;
+ display:grid!important;grid-template-columns:36px minmax(0,1fr) 36px!important;align-items:center!important;
+ gap:8px!important;width:100%!important;height:98px!important;min-height:98px!important;flex:0 0 98px!important;
+ box-sizing:border-box!important;padding:62px 16px 0 14px!important;margin:0!important;
+}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)[aria-hidden=true]{visibility:hidden;pointer-events:none}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>:is(h2,.me-title,span:not(:first-child)) {
+ margin:0!important;text-align:center!important;min-width:0;font-family:'Golos Text',sans-serif!important;
+ font-size:14px!important;font-weight:600!important;line-height:1.3!important;letter-spacing:.04em!important;
+}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>button:first-child {
+ display:grid!important;place-items:center!important;width:36px!important;height:36px!important;min-width:36px!important;
+ padding:0!important;border:1px solid #ffffff17!important;border-radius:12px!important;background:#ffffff04!important;
+ color:#edf1f7!important;cursor:pointer;font-size:0!important;line-height:1!important;box-shadow:none!important;transform:none!important;flex:none!important;box-sizing:border-box!important;
+}
+#device-host .pd-screen-header>:last-child{justify-self:end}
+#device-host .pd-screen-header>.ps-language{width:34px;height:34px}
+#device-host .pd-avatar-editor{position:absolute;inset:0;z-index:95;display:flex;flex-direction:column;background:var(--dot-canvas);color:var(--dot-ink);font-family:'Golos Text',sans-serif}
+.pd-avatar-scroll{flex:1;min-height:0;overflow-y:auto;padding:14px 20px 24px}
+.pd-avatar-preview{display:flex;justify-content:center;padding:14px 0 28px}
+.pd-avatar-scroll h3{display:flex;justify-content:space-between;align-items:center;margin:26px 0 16px;font-size:14px;font-weight:600}
+.pd-avatar-scroll h3 small,.pd-avatar-scroll p{color:#9ca6b5;font-size:12px;font-weight:400;line-height:1.5}
+.pd-photo-upload{width:100%;height:48px;border:1px solid #ffffff22;border-radius:14px;background:#101216;color:#edf1f7;font:500 14px 'Golos Text',sans-serif;cursor:pointer}
+.pd-photo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.pd-photo-grid button{aspect-ratio:1;border:2px solid transparent;border-radius:50%;padding:3px;background:none;cursor:pointer}
+.pd-photo-grid img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.pd-photo-grid button[aria-pressed=true]{border-color:#e42c39}
+.pd-frame-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pd-frame-grid button{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:17px;min-height:124px;padding:18px 8px 12px;background:#0e1013;border:1px solid #ffffff12;border-radius:16px;color:#b8c0ce;font:500 12px 'Golos Text',sans-serif;cursor:pointer}
+.pd-frame-grid button[aria-pressed=true]{border-color:#d7192180;background:#d719210a;color:#fff}
+.pd-avatar-editor footer{padding:12px 20px 30px;background:#07080a;border-top:1px solid #ffffff0b}
+.pd-avatar-editor footer button{width:100%;height:50px;border:0;border-radius:14px;background:linear-gradient(#e72d39,#be1522);color:white;font:600 14px 'Golos Text',sans-serif;cursor:pointer}
+.pd-luck-meter{padding:20px 20px 0;color:#edf1f7}
+.pd-luck-label{display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 12px 'Golos Text',sans-serif;letter-spacing:.08em}
+.pd-luck-label small{font-size:12px;letter-spacing:0;color:#8f99a8;font-weight:400}
+.pd-luck-meter>svg{width:100%;display:block;margin-top:5px;overflow:visible}
+.pd-luck-needle{transition:transform 1s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 4px #e5efff55)}
+.pd-luck-extremes{display:flex;justify-content:space-between;padding:0 14px;margin-top:-16px;font:600 10px 'Golos Text',sans-serif;letter-spacing:.1em;color:#949fac}
+.pd-luck-extremes span:first-child{color:#dc7c85}.pd-luck-extremes span:last-child{color:#7fc4a9}
+.pd-luck-joke{font:500 16px/1.5 'Golos Text',sans-serif;text-align:center;max-width:310px;margin:27px auto 10px;text-wrap:balance}
+.pd-luck-note{display:block;text-align:center;font:400 12px/1.5 'Golos Text',sans-serif;color:#8994a4}
+@media(prefers-reduced-motion:reduce){.pd-luck-needle{transition:none}}
+
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>:nth-child(2){justify-content:center!important;justify-self:stretch!important;width:100%!important}
+#device-host [data-app-root]:has(.pd-avatar-editor) .pd-bottom-dock{display:none!important}
+#device-host .me-top[style*="display: none"]{display:none!important}
+/* Luck radar: instrument highlights and a contextual fortune card. */
+.pd-luck-v2{padding-top:22px}
+.pd-luck-v2 .pd-luck-label>span{display:flex;align-items:center;gap:7px;letter-spacing:.07em}
+.pd-luck-label i{width:5px;height:5px;background:var(--luck-tone);border-radius:50%;box-shadow:0 0 10px color-mix(in srgb,var(--luck-tone) 50%,transparent)}
+.pd-luck-label button{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:999px;border:1px solid #ffffff12;background:#ffffff04;color:#aab5c3;font:400 12px 'Golos Text',sans-serif;cursor:pointer}
+.pd-luck-label button b{font-weight:400;color:#798797}
+.pd-luck-explain{margin-top:12px;padding:13px 14px;border:1px solid #ffffff13;border-radius:14px;background:#11151a;color:#adb8c7;font:400 13px/1.55 'Golos Text',sans-serif;animation:luck-advice-in .3s ease}
+.pd-luck-v2>svg{margin-top:8px}
+.pd-luck-v2 .pd-luck-needle{transition:transform 1.65s cubic-bezier(.16,1,.3,1)}
+.pd-luck-live-arc{filter:drop-shadow(0 0 7px var(--luck-tone));transition:stroke-dasharray 1.2s,stroke-dashoffset 1.2s;animation:luck-arc-in 1.4s ease both}
+.pd-luck-halo{animation:luck-halo-breathe 5s ease-in-out infinite}
+.pd-luck-number{animation:luck-advice-in .8s .25s both}
+.pd-luck-advice{position:relative;margin:25px 0 0;padding:17px 18px 12px;overflow:hidden;border:1px solid color-mix(in srgb,var(--luck-tone) 18%,transparent);border-radius:20px;background:radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--luck-tone) 8%,transparent),transparent 75%),#0c0f13;animation:luck-advice-in .5s ease both}
+.pd-luck-advice:before{content:'';position:absolute;inset:0 20% auto;height:1px;background:linear-gradient(90deg,transparent,var(--luck-tone),transparent);opacity:.45}
+.pd-luck-advice-top{display:flex;align-items:center;gap:8px;color:var(--luck-tone);font:600 10px/1.4 'Golos Text',sans-serif;letter-spacing:.075em}
+.pd-luck-orbit{font-size:20px;line-height:1;display:inline-block;animation:luck-star-turn 12s linear infinite}
+.pd-luck-quote{margin-left:auto;font:36px/20px Georgia,serif;opacity:.45;align-self:flex-start}
+#device-host .pd-luck-advice .pd-luck-joke{text-align:left;font:400 15px/1.5 'Golos Text',sans-serif;margin:12px 0 8px;max-width:none;color:#edf1f6;text-wrap:pretty}
+.pd-luck-advice-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ffffff0a;padding-top:10px;color:#7e8a9b;font:500 10px 'Golos Text',sans-serif;letter-spacing:.09em}
+.pd-luck-advice-bottom>span:last-child{color:var(--luck-tone);font-size:17px}
+.pd-luck-v2 .pd-luck-note{margin:12px 10px 0;font-size:11px;line-height:1.5;color:#8390a1}
+@keyframes luck-advice-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes luck-arc-in{from{opacity:0}to{opacity:1}}
+@keyframes luck-halo-breathe{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes luck-star-turn{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.pd-luck-v2 *{animation:none!important;transition:none!important}}
+.pd-luck-advice-top,.pd-luck-advice-bottom{font-size:12px;letter-spacing:.025em}.pd-luck-v2 .pd-luck-note{font-size:12px}.pd-luck-v2 .pd-luck-extremes{font-size:12px;letter-spacing:.04em}
+
+/* Upload is the first avatar-sized choice, not a separate full-width action. */
+#device-host .pd-photo-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+#device-host .pd-photo-grid .pd-photo-add{display:grid;place-items:center;border:1px dashed #ffffff35;background:linear-gradient(145deg,#191d23,#101216);color:#d6dee8;padding:0;transition:border-color .2s,background .2s}
+#device-host .pd-photo-grid .pd-photo-add:hover{border-color:#e64a55;background:#d7192110}
+#device-host .pd-photo-grid .pd-photo-add:active{background:#d7192120}
+
+/* Shared back glyph: identical size, weight and alignment on every route. */
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>button:first-child>svg{
+ display:block!important;width:16px!important;height:16px!important;min-width:16px!important;
+ stroke:currentColor!important;stroke-width:2.4!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+ fill:none!important;transform:none!important;margin:0!important;
+}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>button:first-child:focus-visible{outline:2px solid #edf1f7;outline-offset:3px}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>button:first-child:active{background:#ffffff10!important}
+
+/* Luck explanation floats above the gauge without changing layout. */
+.pd-luck-label{position:relative;z-index:5}
+.pd-luck-label .pd-luck-info-button{width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:50%;border:1px solid #ffffff25;background:#ffffff05;color:#b5bfcc}
+.pd-luck-info-button:focus-visible{outline:2px solid #edf1f7;outline-offset:3px}
+.pd-luck-popover{position:absolute;top:calc(100% + 12px);right:0;width:min(336px,100%);box-sizing:border-box;padding:18px;border:1px solid #ffffff20;border-radius:18px;background:#13161b;box-shadow:0 18px 48px #000b;color:#b4becc;font:400 14px/1.55 'Golos Text',sans-serif;letter-spacing:0;animation:luck-advice-in .18s ease}
+.pd-luck-popover-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pd-luck-popover h3{margin:0;color:#f1f3f7;font-size:16px;font-weight:600}
+.pd-luck-popover-heading button{width:32px;height:32px;display:grid;place-items:center;padding:0;font-size:24px;border-radius:50%;flex:none}
+.pd-luck-popover p{margin:14px 0}.pd-luck-popover strong{color:#edf1f7;font-weight:600}
+.pd-luck-popover small{display:block;padding-top:12px;border-top:1px solid #ffffff12;font-size:12px;line-height:1.55;color:#8f9aaa}
+
+/* Pulse of luck: illuminated instrument, steady value with ambient light. */
+.pd-luck-v2>svg{overflow:visible;background:radial-gradient(ellipse at 50% 57%,#17232b75,transparent 65%)}
+.pd-luck-v2 .pd-luck-needle{filter:drop-shadow(0 0 5px #dcefff65);transition:transform 1.8s cubic-bezier(.2,1.12,.4,1)}
+.pd-luck-tip{filter:drop-shadow(0 0 6px var(--luck-tone))}
+.pd-luck-beam{animation:luck-beam-breathe 3.6s ease-in-out infinite}
+.pd-luck-v2 .pd-luck-number{letter-spacing:-1.5px;filter:drop-shadow(0 2px 10px #ffffff15)}
+.pd-luck-v2 .pd-luck-number tspan{letter-spacing:0}
+.pd-luck-label>span>i{animation:luck-pulse-dot 2.8s ease-out infinite}
+@keyframes luck-beam-breathe{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes luck-pulse-dot{0%,100%{box-shadow:0 0 0 0 transparent}30%{box-shadow:0 0 0 5px #70d9ae13}}
+@media(prefers-reduced-motion:reduce){.pd-luck-v2 *{animation:none!important;transition:none!important}}
+
+/* Preserve the full prototype's original DotCenter header footprint. */
+#device-host .pd-career>.me-top{height:98px!important;min-height:98px!important;flex:0 0 98px!important;grid-template-columns:36px minmax(0,1fr) 36px!important;padding:62px 16px 0 14px!important}
+#device-host .pd-career>.me-top>button:first-child{width:36px!important;height:36px!important;min-width:36px!important}
+
+/* Center nested title labels independently of old per-screen typography. */
+#device-host .pd-screen-header>span:nth-child(2){justify-content:center!important}
+#device-host .pd-screen-header>span:nth-child(2)>span{font-family:'Golos Text',sans-serif!important;font-size:14px!important;font-weight:600!important;line-height:1.3!important;letter-spacing:.04em!important}
+#device-host :is(.pd-screen-header,.me-top,.lf-top,.rb-detail-header,.tt-top)>:is(h1,h2,.me-title){text-transform:uppercase}
+#device-host .pd-screen-header>button:first-child svg{width:16px;height:16px;stroke-width:2.4}

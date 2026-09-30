@@ -1,0 +1,364 @@
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta charset="utf-8">
+  <title>PokerDot v3</title>
+  <meta name="theme-color" content="#050505">
+  <script src="fit.js" defer></script>
+  <script src="hit-area.js" defer></script>
+  <script>
+    // stylesheet needs the same token-carrying query as the scripts below
+    document.write('<link rel="stylesheet" href="ds/colors_and_type.css">');
+  </script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap">
+  <style>
+    /* ─── Global animation keyframes ───────────────────────────────── */
+    /* правка 13 · ледь помітне «дихання» пуш-плашки */
+    @keyframes mp-bob {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(2px) scale(1); }
+    }
+    /* стрілка на пуші легенько кличе натиснути */
+    @keyframes mp-nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(3px); }
+    }
+    /* випадайка форматів опускається з-під шапки */
+    @keyframes px-drop {
+      from { transform: translateY(-14px); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    /* екран режиму виїжджає знизу — однаково в кеші й турнірах */
+    @keyframes px-up {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes rb-scatter0 { to { transform: translate(-150px,-120px) rotate(400deg); opacity: 0; } }
+    @keyframes rb-scatter1 { to { transform: translate(140px,-140px) rotate(-380deg); opacity: 0; } }
+    @keyframes rb-scatter2 { to { transform: translate(-120px,110px) rotate(300deg); opacity: 0; } }
+    @keyframes rb-scatter3 { to { transform: translate(160px,90px) rotate(-320deg); opacity: 0; } }
+    @keyframes pp-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .55; transform: scale(.88); }
+    }
+    @keyframes pp-spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pp-float {
+      0%, 100% { transform: translateY(0) rotate(15deg); }
+      50%      { transform: translateY(-8px) rotate(20deg); }
+    }
+    @keyframes pp-sweep {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @keyframes pp-ring {
+      0%   { transform: scale(1);   opacity: .55; }
+      100% { transform: scale(1.4); opacity: 0;   }
+    }
+    @keyframes pp-fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pp-rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pp-bobble {
+      0%, 100% { transform: translateY(0)    rotate(-3deg); }
+      50%      { transform: translateY(-10px) rotate(3deg); }
+    }
+    @keyframes pp-bobble-2 {
+      0%, 100% { transform: translateY(0)    rotate(2deg); }
+      50%      { transform: translateY(-12px) rotate(-2deg); }
+    }
+    @keyframes pp-bobble-3 {
+      0%, 100% { transform: translateY(-4px) rotate(-1deg); }
+      50%      { transform: translateY(6px)  rotate(2deg); }
+    }
+    @keyframes pp-pulse-ring {
+      0%   { box-shadow: 0 14px 34px rgba(0,0,0,.45), 0 0 0 6px rgba(255,255,255,.14); }
+      70%  { box-shadow: 0 14px 34px rgba(0,0,0,.45), 0 0 0 22px rgba(255,255,255,0); }
+      100% { box-shadow: 0 14px 34px rgba(0,0,0,.45), 0 0 0 6px rgba(255,255,255,.14); }
+    }
+    @keyframes pp-claim-pop {
+      0%   { transform: scale(.55); }
+      55%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    @keyframes pp-check-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes pp-burst {
+      0%   { transform: scale(.7);  opacity: .8; }
+      100% { transform: scale(2.5); opacity: 0;  }
+    }
+    @keyframes comp-floatA { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-7px) rotate(2deg); } }
+    @keyframes comp-floatB { 0%,100% { transform: translateY(-3px) rotate(3deg); } 50% { transform: translateY(6px) rotate(-3deg); } }
+    @keyframes sg-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes sg-pop  { 0%{transform:scale(.4);opacity:0} 55%{transform:scale(1.12)} 75%{transform:scale(.96)} 100%{transform:scale(1);opacity:1} }
+    @keyframes sg-conf { to { transform: translateY(560px) rotate(var(--cr,600deg)); opacity:.15 } }
+
+    /* ─── no blinking: flashing keyframes neutralised app-wide (redefined last) ─ */
+    @keyframes pp-pulse { 0%, 100% { opacity: 1; transform: none } }
+    @keyframes pp-ring { 0%, 100% { opacity: 0; transform: scale(1) } }
+    @keyframes pp-sweep { 0%, 100% { transform: translateX(-100%) } }
+    @keyframes pp-pulse-ring { 0%, 100% { box-shadow: 0 14px 34px rgba(0,0,0,.45) } }
+    @keyframes gj-blink { 0%, 100% { opacity: 1 } }
+    @keyframes gj-chase { 0%, 100% { opacity: 1 } }
+    @keyframes gj-glow { 0%, 100% { opacity: 1 } }
+    @keyframes cbw-pulse { 0%, 100% { opacity: 1; transform: none } }
+    @keyframes ci-todayring { 0%, 100% { opacity: 1; transform: none } }
+
+    /* dock logo — a slow breathe, not a blink (deliberately after the neutralisers) */
+    @keyframes nav-breathe { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.045) } }
+    @keyframes nav-breathe-ring { 0%, 100% { transform: scale(1); opacity: .85 } 50% { transform: scale(1.22); opacity: .35 } }
+
+    html, body {
+      margin: 0; padding: 0; min-height: 100vh;
+      background: #050505;
+      font-family: "Chakra Petch", "Geist Mono", ui-monospace, monospace;
+      color: #fff;
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Page stage — center the device, render the brand mark beside ── */
+    .stage {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+      gap: 60px;
+      position: relative;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 20%, rgba(215,25,33,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255,255,255,.03) 0%, transparent 60%),
+        #050505;
+    }
+    /* dot grid overlay on the page bg */
+    .stage::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,.025) 0.7px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .brand-mark {
+      position: relative;
+      max-width: 320px;
+    }
+    .brand-mark .kicker {
+      font-family: "Chakra Petch", monospace; font-size: 11px;
+      letter-spacing: .32em; color: rgba(255,255,255,.45);
+      margin-bottom: 12px;
+    }
+    .brand-mark h1 {
+      font-family: "Chakra Petch", monospace; font-size: 56px;
+      line-height: .92; letter-spacing: .02em; margin: 0;
+      color: #fff;
+    }
+    .brand-mark .desc {
+      font-family: "Chakra Petch", monospace; font-size: 12px;
+      line-height: 1.6; letter-spacing: .04em;
+      color: rgba(255,255,255,.55); margin-top: 18px;
+      max-width: 280px;
+    }
+    .brand-mark .meta {
+      margin-top: 24px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-family: "Chakra Petch", monospace; font-size: 10px;
+      letter-spacing: .14em; color: rgba(255,255,255,.4);
+    }
+    .brand-mark .meta b { color: #fff; font-weight: normal; }
+    .brand-mark .accent-bar {
+      width: 80px; height: 3px; background: #D71921;
+      margin-top: 28px;
+      box-shadow: 0 0 12px rgba(215,25,33,.6);
+    }
+
+    @media (max-width: 900px) {
+      .stage { gap: 0; padding: 0; }
+      .brand-mark { display: none; }
+    }
+
+    /* hide scrollbars inside the device */
+    *::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; }
+  </style>
+
+
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" fill="#D71921"/>
+      <circle cx="50" cy="50" r="24" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="3 3"/>
+      <text x="50" y="60" text-anchor="middle" font-family="monospace" font-size="22" font-weight="700" fill="#fff">PL</text>
+    </svg>
+  </template>
+  <div class="stage" data-screen-label="01 Poker Lobby">
+    <div id="device-host"></div>
+  </div>
+
+  <script>
+    // Tweak defaults wrapped in EDITMODE markers so the host can persist.
+    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "#D71921",
+      "density": "regular",
+      "jackpot": "inferno",
+      "rakebackReward": "icon",
+      "playFlowStyle": "wheels",
+      "vipStyle": "sapphire"
+    }/*EDITMODE-END*/;
+  </script>
+
+  <script src="vendor/react.min.js"></script>
+  <script src="vendor/react-dom.min.js"></script>
+  <script src="vendor/three.min.js"></script>
+    <script src="js/ui-tokens.js"></script>
+  <script src="js/i18n.js"></script>
+    <script src="js/qr.js"></script>
+  <script src="js/ios-frame.js?v=banknotes-21"></script>
+  <script src="js/tweaks-panel.js"></script>
+  <script src="js/bonus-src.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/leagues.js?v=suit-frame-11"></script>
+  <script src="js/legend-frames.js?v=suit-frame-11"></script>
+  <script src="js/spinwin.js"></script>
+  <script src="js/spin-go.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/table-select.js"></script>
+  <script src="js/hand-replay.js"></script>
+  <script src="js/play-flow.js"></script>
+  <script src="js/play-flow-v2.js"></script>
+  <script src="js/tournament.js"></script>
+  <script src="js/tournament-live.js"></script>
+  <script src="js/deposit-bonus.js"></script>
+  <script src="js/deposit-flow.js"></script>
+  <script src="js/cashier-parts.js"></script>
+  <script src="js/cashier-parts2.js"></script>
+  <script src="js/transactions.js"></script>
+  <script src="js/cashier-details.js"></script>
+  <script src="js/cashier.js"></script>
+  <script src="js/wallet.js"></script>
+  <script src="js/hand-history.js"></script>
+  <script src="js/hand-detail.js"></script>
+  <script src="js/hand-replay-v2.js"></script>
+  <script src="js/fortune-wheel.js"></script>
+  <script src="js/settings-controls.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/security.js"></script>
+  <script src="js/image-slot.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/mtt-data.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/tile-structure-variants.js"></script>
+  <script src="js/my-tournaments.js"></script>
+  <script src="js/universal-ticket.js"></script>
+  <script src="js/profile.js?v=flat-logout-13"></script>
+  <script src="js/tasks.js?v=rewards-style-20"></script>
+  <script src="js/giftcode.js"></script>
+  <script src="js/help.js"></script>
+  <script src="js/tickets.js"></script>
+  <script src="js/cardhouse-3d.js?v=coloured-faces-10"></script>
+  <script src="js/reward-coin-asset.js"></script>
+  <script src="js/coin-motion.js"></script><script src="js/reward-coins-3d.js?v=banknotes-21"></script>
+  <script src="js/rakeback.js?v=banknotes-21"></script>
+  <script src="js/rakeback-stats.js"></script>
+  <script src="js/me.js?v=banknotes-21"></script>
+  <script src="js/lock-counter.js"></script>
+  <script src="js/marquee-sign.js"></script>
+  <script src="js/bad-beat.js"></script>
+  <script src="js/honeymoon.js"></script>
+  <script src="js/competitions.js"></script>
+  <script src="js/invite.js"></script>
+  <script src="js/referral-rewards.js"></script>
+  <script src="js/checkin.js"></script>
+  <script src="js/screen-info.js"></script>
+  <script src="js/terms.js"></script>
+  <script src="js/player-card.js"></script>
+  <script src="js/reward-claim.js"></script>
+  <script src="js/achievement.js"></script>
+  <script src="js/share-image.js"></script>
+  <script src="js/table-win.js"></script>
+  <script src="js/tourney-result.js"></script>
+  <script src="js/cashback-widget.js"></script>
+  <script src="js/cash-lobby.js"></script>
+  <script src="js/lobby-canvas.js?v=status-font-fix-8"></script>
+  <script src="js/hand-ranks.js"></script>
+  <script src="js/table-ref.js"></script>
+  <script src="js/table-settings.js"></script>
+  <script src="js/table-ref-screen.js"></script>
+  <script>
+    // FORK v2 · dev-режим: JSX компілюється браузерним Babel асинхронно
+    // (на DOMContentLoaded), тому тригер монтування теж чекає той самий
+    // event — інакше __pxMount стартує раніше, ніж визначені компоненти.
+    function __pxReady(){ window.__PX_READY = true; window.__pxMount && window.__pxMount(); }
+    __pxReady();
+  </script>
+
+  <script>
+    (function () {
+      var host = document.getElementById("device-host");
+      if (host) host.innerHTML = '<div id="px-boot" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 11px/1.6 \'Chakra Petch\',system-ui,sans-serif;letter-spacing:.22em;color:rgba(255,255,255,.35)">LOADING</div>';
+    })();
+    // relative <img> URLs need the same token-carrying query as the scripts
+    (function () {
+      var Q = location.search;
+      if (!Q) return;
+      var abs = /^(https?:|data:|blob:|\/)/;
+      var fix = function (img) {
+        var raw = img.getAttribute("src");
+        if (!raw || abs.test(raw) || raw.indexOf("?") > -1) return;
+        img.setAttribute("src", raw + Q);
+      };
+      var fixBg = function (el) {
+        var bg = el.style && el.style.backgroundImage;
+        if (!bg || bg.indexOf("url(") < 0 || bg.indexOf("?") > -1) return;
+        var out = bg.replace(/url\((['"]?)([^'")]+)\1\)/g, function (m, q, u) {
+          return abs.test(u) ? m : "url(" + q + u + Q + q + ")";
+        });
+        if (out !== bg) el.style.backgroundImage = out;
+      };
+      var sweep = function (n) {
+        if (n.tagName === "IMG") fix(n); else fixBg(n);
+        if (!n.querySelectorAll) return;
+        var l = n.querySelectorAll("img"); for (var k = 0; k < l.length; k++) fix(l[k]);
+        var b = n.querySelectorAll('[style*="url("]'); for (var m = 0; m < b.length; m++) fixBg(b[m]);
+      };
+      new MutationObserver(function (recs) {
+        for (var i = 0; i < recs.length; i++) {
+          var added = recs[i].addedNodes;
+          for (var j = 0; j < added.length; j++) {
+            var n = added[j];
+            if (n.nodeType !== 1) continue;
+            sweep(n);
+          }
+        }
+      }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "src"] });
+    })();
+    window.__pxErr = [];
+    window.addEventListener("error", function (e) { window.__pxErr.push(String(e.message) + " @" + String(e.filename).split("/").pop() + ":" + e.lineno); });
+    function App() {
+      return React.createElement(window.IOSDevice, { dark: true, width: 402, height: 874 },
+        React.createElement(window.PokerLobbyCanvas));
+    }
+    // mount once, driven by the loader finishing (with a poll as a safety net)
+    window.__pxMount = function () {
+      if (window.__pxMounted) return;
+      if (!window.__PX_READY) { setTimeout(window.__pxMount, 40); return; }
+      if (!window.IOSDevice || !window.PokerLobbyCanvas) {
+        document.getElementById("device-host").innerHTML =
+          '<div style="font:600 13px/1.6 \'Chakra Petch\',system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-align:center;padding:40px 24px">' +
+          'COULD NOT LOAD THE PROTOTYPE<br><span style="color:rgba(255,255,255,.5);font-weight:500">Some component files did not download — reload the page.</span></div>';
+        return;
+      }
+      window.__pxMounted = true;
+      ReactDOM.createRoot(document.getElementById("device-host")).render(React.createElement(App));
+    };
+    window.__pxMount();
+  </script>
+
+
+<script>setTimeout(()=>{const el=document.createElement("div");el.style="position:fixed;inset:0;margin:auto;width:402px;height:874px;max-height:100vh;z-index:999999";document.body.appendChild(el);ReactDOM.createRoot(el).render(React.createElement(RbKingUnlock,{level:43,onEarned:()=>{},onClose:()=>location.reload()}));},500)</script>
