@@ -633,14 +633,12 @@ function RbRateDetails({
     style: {
       color: c.temperature.color
     }
-  }, /*#__PURE__*/React.createElement("i", null), c.temperature.name, " ", /*#__PURE__*/React.createElement("b", null, c.temperature.index + 1, "/10")))), preview != null ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(RbTemperatureBar, {
+  }, /*#__PURE__*/React.createElement("i", null), c.temperature.name, " ", /*#__PURE__*/React.createElement("b", null, c.temperature.index + 1, "/10")))), preview != null && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(RbTemperatureBar, {
     value: temp,
     onChange: setTemp
   }), /*#__PURE__*/React.createElement("p", {
     className: "rb-help"
-  }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C, \u043A\u0430\u043A \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C \u043C\u0435\u043D\u044F\u0435\u0442 \u0442\u0430\u043B\u0438\u0441\u043C\u0430\u043D \u0438 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0440\u0435\u0439\u043A\u0431\u0435\u043A.")) : /*#__PURE__*/React.createElement("div", {
-    className: "rb-current-signals"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, "\u0423\u0434\u0430\u0447\u0430"), /*#__PURE__*/React.createElement("strong", null, "+", current.luckBB, " ", /*#__PURE__*/React.createElement("small", null, "BB")), /*#__PURE__*/React.createElement("small", null, "\u0412\u0430\u043C \u0432\u0435\u0437\u0451\u0442")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C"), /*#__PURE__*/React.createElement("strong", null, c.temperature.index + 1, /*#__PURE__*/React.createElement("small", null, " / 10")), /*#__PURE__*/React.createElement("small", null, c.temperature.name))), /*#__PURE__*/React.createElement("div", {
+  }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C, \u043A\u0430\u043A \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C \u043C\u0435\u043D\u044F\u0435\u0442 \u0442\u0430\u043B\u0438\u0441\u043C\u0430\u043D \u0438 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0440\u0435\u0439\u043A\u0431\u0435\u043A.")), /*#__PURE__*/React.createElement("div", {
     className: "rb-explanation"
   }, /*#__PURE__*/React.createElement("h2", null, "\u041F\u043E\u0447\u0435\u043C\u0443 \u0442\u0430\u043A\u043E\u0439 \u043F\u0440\u043E\u0446\u0435\u043D\u0442?"), /*#__PURE__*/React.createElement("p", null, preview != null ? c.talisman.index >= 6 ? 'При такой удаче компенсация ниже.' : 'При такой удаче компенсация выше.' : c.talisman.index >= 6 ? 'Сейчас вам везёт — компенсация ниже.' : 'Сейчас удача ниже — компенсация выше.', " ", c.temperature.index < 4 ? 'Низкая активность охлаждает талисман и уменьшает базовый рейкбек.' : c.temperature.index === 4 ? 'При нейтральной активности базовый рейкбек без поправки.' : 'Активность разогревает талисман и повышает базовый рейкбек.')), /*#__PURE__*/React.createElement("div", {
     className: "rb-calculation",
