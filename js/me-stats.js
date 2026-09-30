@@ -311,16 +311,14 @@ function MsStyleMetric({
   ratio,
   onExplain
 }) {
-  const share = ratio ? value / (value + 1) * 100 : value;
   return /*#__PURE__*/React.createElement("button", {
     className: "ms-game-stat",
     onClick: onExplain,
     "aria-label": `${label}: ${value}${ratio ? ' к 1' : '%'}. Подробнее`
-  }, /*#__PURE__*/React.createElement("span", null, label), /*#__PURE__*/React.createElement("strong", null, value, ratio ? ' : 1' : '%'), /*#__PURE__*/React.createElement("i", null, /*#__PURE__*/React.createElement("b", {
-    style: {
-      width: share + '%'
-    }
-  })), /*#__PURE__*/React.createElement("small", null, MS_DESCRIPTIONS[label]));
+  }, /*#__PURE__*/React.createElement("span", null, label), /*#__PURE__*/React.createElement("strong", null, value, ratio ? ' : 1' : '%'), /*#__PURE__*/React.createElement("span", {
+    className: "ms-stat-info",
+    "aria-hidden": "true"
+  }, "\u2197"), /*#__PURE__*/React.createElement("small", null, MS_DESCRIPTIONS[label]));
 }
 function MsCashOverview({
   c,
@@ -814,6 +812,64 @@ function msTopResults(period) {
   const since = period === '7d' ? '2026-09-24' : period === '30d' ? '2026-09-01' : '';
   return MS_TOURNEY_RESULTS.filter(r => r[1] >= since).sort((a, b) => parseInt(a[3]) - parseInt(b[3]) || b[1].localeCompare(a[1])).slice(0, 5).map(r => [r[0], r[1].slice(8) + '.' + r[1].slice(5, 7), ...r.slice(2)]);
 }
+function MsAwardIcon({
+  kind = 'cup'
+}) {
+  return /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 48 48",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.6",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true"
+  }, kind === 'cup' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+    d: "M15 8h18v12a9 9 0 0 1-18 0zM15 11H8v5a9 9 0 0 0 9 9M33 11h7v5a9 9 0 0 1-9 9M24 29v10M17 40h14"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "m24 13 1.6 3.3 3.6.5-2.6 2.5.6 3.6-3.2-1.7-3.2 1.7.6-3.6-2.6-2.5 3.6-.5z"
+  })) : kind === 'table' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("rect", {
+    x: "7",
+    y: "12",
+    width: "34",
+    height: "24",
+    rx: "12"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M17 8h5M28 8h5M17 40h5M28 40h5M12 21v6M36 21v6"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "m24 17 5 7-5 7-5-7z"
+  })) : kind === 'prize' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+    d: "m24 7 14 12-14 23L10 19zM10 19h28M18 19l6 23 6-23M18 19l6-12 6 12"
+  })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("rect", {
+    x: "12",
+    y: "8",
+    width: "24",
+    height: "33",
+    rx: "4"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "m24 17 6 8-6 8-6-8zM17 13h1M30 36h1"
+  })));
+}
+function MsSpinPodium({
+  period
+}) {
+  const counts = period === '7d' ? [25, 21, 16] : period === '30d' ? [93, 77, 57] : [169, 140, 103];
+  return /*#__PURE__*/React.createElement("section", {
+    className: "ms-podium",
+    "aria-label": "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0444\u0438\u043D\u0438\u0448\u0435\u0439 \u043F\u043E \u043C\u0435\u0441\u0442\u0430\u043C"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-podium-stage"
+  }, [2, 1, 3].map(place => /*#__PURE__*/React.createElement("div", {
+    className: "ms-podium-column",
+    "data-place": place,
+    key: place
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ms-podium-count"
+  }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
+    value: counts[place - 1]
+  })), /*#__PURE__*/React.createElement("span", null, "\u0444\u0438\u043D\u0438\u0448\u0435\u0439")), /*#__PURE__*/React.createElement("div", {
+    className: "ms-podium-step"
+  }, place === 1 && /*#__PURE__*/React.createElement(MsAwardIcon, null), /*#__PURE__*/React.createElement("b", null, place), /*#__PURE__*/React.createElement("small", null, "\u041C\u0415\u0421\u0422\u041E"))))), /*#__PURE__*/React.createElement("p", null, "\u041A\u0430\u0436\u0434\u0430\u044F \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D\u043D\u0430\u044F \u0438\u0433\u0440\u0430 \u2014 \u043E\u0434\u043D\u043E \u043C\u0435\u0441\u0442\u043E \u043D\u0430 \u043F\u044C\u0435\u0434\u0435\u0441\u0442\u0430\u043B\u0435"));
+}
 function MsMttScreen({
   onClose
 }) {
@@ -854,23 +910,19 @@ function MsMttScreen({
     key: period,
     className: "ms-body"
   }, /*#__PURE__*/React.createElement("section", {
-    className: "ms-equal-grid"
-  }, /*#__PURE__*/React.createElement(MsMetric, {
-    label: "\u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415",
+    className: "ms-tournament-hero"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "ms-eyebrow"
+  }, "\u0422\u0423\u0420\u041D\u0418\u0420\u041D\u042B\u0415 \u041F\u0420\u0418\u0417\u041E\u0412\u042B\u0415"), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: period === '7d' ? 1563 : period === '30d' ? 3420 : 6840,
-    prefix: "$",
-    metric: "PRIZES",
-    onExplain: setEx
-  }), /*#__PURE__*/React.createElement(MsMetric, {
-    label: "ITM",
+    prefix: "$"
+  })), /*#__PURE__*/React.createElement("small", null, steps[1][1], " \u043F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u0439 \u0432 \u043F\u0440\u0438\u0437\u044B \xB7 ", steps[0][1], " \u0442\u0443\u0440\u043D\u0438\u0440\u043E\u0432")), /*#__PURE__*/React.createElement(MsAwardIcon, null)), /*#__PURE__*/React.createElement("section", {
+    className: "ms-equal-grid ms-tournament-summary"
+  }, /*#__PURE__*/React.createElement(MsMetric, {
+    label: "\u0412 \u041F\u0420\u0418\u0417\u0410\u0425 \xB7 ITM",
     value: Math.round(steps[1][1] / steps[0][1] * 100),
     suffix: "%",
     metric: "ITM",
-    onExplain: setEx
-  }), /*#__PURE__*/React.createElement(MsMetric, {
-    label: "\u0422\u0423\u0420\u041D\u0418\u0420\u041E\u0412",
-    value: steps[0][1],
-    metric: "PLAYED",
     onExplain: setEx
   }), /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u041B\u0423\u0427\u0428\u0415\u0415 \u041C\u0415\u0421\u0422\u041E",
@@ -895,22 +947,18 @@ function MsMttScreen({
     period: period,
     onExplain: setEx
   }), /*#__PURE__*/React.createElement(MsHeading, null, "\u041E\u0422 \u0412\u0425\u041E\u0414\u0410 \u0414\u041E \u041F\u041E\u0411\u0415\u0414\u042B"), /*#__PURE__*/React.createElement("div", {
-    className: "ms-journey"
+    className: "ms-milestones"
   }, steps.map(([l, v, key], i) => /*#__PURE__*/React.createElement("button", {
     key: l,
     onClick: () => setEx(key),
-    style: {
-      '--i': i
-    }
+    "data-stage": i
   }, /*#__PURE__*/React.createElement("span", {
-    className: "ms-journey-no"
-  }, "0", i + 1), /*#__PURE__*/React.createElement("span", null, l, i > 0 && /*#__PURE__*/React.createElement("i", null, /*#__PURE__*/React.createElement("b", {
-    style: {
-      width: Math.max(3, v / steps[0][1] * 100) + '%'
-    }
-  }))), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
+    className: "ms-milestone-icon"
+  }, /*#__PURE__*/React.createElement(MsAwardIcon, {
+    kind: ['cards', 'prize', 'table', 'cup'][i]
+  })), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: v
-  }))))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0422\u041E\u041F-5 \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412 ", period === 'all' ? 'ЗА ВСЁ ВРЕМЯ' : period === '7d' ? 'ЗА 7 ДНЕЙ' : 'ЗА 30 ДНЕЙ'), /*#__PURE__*/React.createElement(MsResultRows, {
+  })), /*#__PURE__*/React.createElement("span", null, l)))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0422\u041E\u041F-5 \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412 ", period === 'all' ? 'ЗА ВСЁ ВРЕМЯ' : period === '7d' ? 'ЗА 7 ДНЕЙ' : 'ЗА 30 ДНЕЙ'), /*#__PURE__*/React.createElement(MsResultRows, {
     rows: msTopResults(period),
     onOpen: setResult
   }), history.widget));
@@ -966,7 +1014,9 @@ function MsSpinScreen({
     prefix: "$",
     metric: "BEST PRIZE",
     onExplain: setEx
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0424\u0418\u041D\u0418\u0428\u0418 \u041F\u041E \u041C\u0415\u0421\u0422\u0410\u041C"), /*#__PURE__*/React.createElement(MsSpinPodium, {
+    period: period
+  }), /*#__PURE__*/React.createElement("div", {
     className: "ms-equal-grid"
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0421\u042B\u0413\u0420\u0410\u041D\u041E",
@@ -1051,17 +1101,12 @@ function MsLbScreen({
   }, "Daily Hands", /*#__PURE__*/React.createElement("b", {
     className: "ms-smaller"
   }, "20 \u0421\u0415\u041D\u0422\u042F\u0411\u0420\u042F"))), /*#__PURE__*/React.createElement("div", {
-    className: "ms-finish-line",
-    "aria-hidden": "true"
-  }, Array.from({
-    length: 14
-  }, (_, i) => /*#__PURE__*/React.createElement("i", {
-    key: i,
-    "data-lit": i < Math.round(5 * k),
-    style: {
-      '--i': i
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
+    className: "ms-best-award"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ms-best-medal"
+  }, /*#__PURE__*/React.createElement(MsAwardIcon, null)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u041F\u0420\u0418\u0417 \u0417\u0410 1-\u0415 \u041C\u0415\u0421\u0422\u041E"), /*#__PURE__*/React.createElement("strong", null, "$200")), /*#__PURE__*/React.createElement("span", {
+    className: "ms-best-caption"
+  }, "Daily Hands", /*#__PURE__*/React.createElement("br", null), "20.09")), /*#__PURE__*/React.createElement("div", {
     className: "ms-metrics-row"
   }, /*#__PURE__*/React.createElement(MsMetric, {
     label: "\u0423\u0427\u0410\u0421\u0422\u0418\u0419",
@@ -1100,20 +1145,7 @@ function MsLbScreen({
   })), "\u043E\u0447\u043A\u043E\u0432"))))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0418\u0421\u0422\u041E\u0420\u0418\u042F \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412"), /*#__PURE__*/React.createElement(MsResultRows, {
     rows: ME_LB,
     leaderboard: true
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "ms-detail-metrics"
-  }, /*#__PURE__*/React.createElement(MsMetric, {
-    label: "\u0422\u041E\u041F-10",
-    value: Math.round(4 * k),
-    metric: "TOP 10",
-    onExplain: setEx
-  }), /*#__PURE__*/React.createElement(MsMetric, {
-    label: "\u0421\u0420\u0415\u0414\u041D\u0415\u0415 \u041C\u0415\u0421\u0422\u041E",
-    value: 7.4,
-    decimals: 1,
-    metric: "AVG PLACE",
-    onExplain: setEx
-  }))));
+  })));
 }
 function MsRecentHands({
   onHistory,

@@ -714,7 +714,7 @@ function TournamentDetail({
     overlay: overlay,
     live: live,
     completed: completed
-  }), /*#__PURE__*/React.createElement("div", {
+  }), !completed && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       borderBottom: "1px solid rgba(255,255,255,.13)",
@@ -877,7 +877,7 @@ function TournamentDetail({
     style: {
       padding: "18px 16px 32px"
     }
-  }, tab === "overview" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(3,minmax(0,1fr))",
@@ -920,46 +920,7 @@ function TournamentDetail({
       textAlign: "right",
       color: i === 2 ? "#21C97B" : "#fff"
     }
-  }, value))))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 1,
-      background: "rgba(255,255,255,.07)",
-      borderRadius: 14,
-      overflow: "hidden",
-      border: "1px solid rgba(255,255,255,.07)"
-    }
-  }, /*#__PURE__*/React.createElement(InfoCell, {
-    label: "\u0412\u0410\u0428\u0415 \u041C\u0415\u0421\u0422\u041E",
-    value: "#" + ev.place,
-    sub: "из " + ev.entries + " игроков"
-  }), /*#__PURE__*/React.createElement(InfoCell, {
-    label: "\u0412\u0410\u0428 \u041F\u0420\u0418\u0417",
-    value: ev.prize,
-    accentVal: "#21C97B"
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      ...TD_ROW,
-      marginTop: 16
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: TD_K
-  }, "\u0422\u0423\u0420\u041D\u0418\u0420"), /*#__PURE__*/React.createElement("span", {
-    style: TD_V
-  }, ev.name)), /*#__PURE__*/React.createElement("div", {
-    style: TD_ROW
-  }, /*#__PURE__*/React.createElement("span", {
-    style: TD_K
-  }, "\u0414\u0410\u0422\u0410"), /*#__PURE__*/React.createElement("span", {
-    style: TD_V
-  }, ev.date)), /*#__PURE__*/React.createElement("div", {
-    style: TD_ROW
-  }, /*#__PURE__*/React.createElement("span", {
-    style: TD_K
-  }, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("span", {
-    style: TD_V
-  }, ev.buyIn)))), tab === "satellites" && /*#__PURE__*/React.createElement(SatLadderTab, {
+  }, value))))), tab === "satellites" && /*#__PURE__*/React.createElement(SatLadderTab, {
     accent: accent,
     t: t,
     ev: ev
