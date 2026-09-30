@@ -426,10 +426,19 @@ function TournamentDetail({
   onDeposit
 }) {
   const ev = liveEvent || null; // the tapped event, running or not
-  const lv = ev && ev.start && ev.start <= Date.now() ? ev : null; // only a STARTED event is live
+  const completed = ev?.status === "completed";
+  const lv = !completed && ev && ev.start && ev.start <= Date.now() ? ev : null; // only a STARTED event is live
   const live = !!lv;
   const parseT = s => Number(String(s || "").replace(/[^\d]/g, "")) || 0;
-  const t = ev ? Object.assign({}, NEXT_TOURNAMENT, {
+  const t = completed ? {
+    ...ev,
+    series: "ТУРНИР ЗАВЕРШЁН",
+    accentSuit: "heart",
+    gtd: "",
+    gtdNum: 0,
+    poolPerEntry: 0,
+    startField: ev.entries
+  } : ev ? Object.assign({}, NEXT_TOURNAMENT, {
     name: ev.name,
     buyIn: ev.buyIn,
     gtd: ev.gtd,
@@ -502,12 +511,12 @@ function TournamentDetail({
 
   // live field growth — registrations tick up while page is open (frozen mid-game)
   React.useEffect(() => {
-    if (!open || live) return;
+    if (!open || live || completed) return;
     const iv = setInterval(() => {
       setField(f => f + Math.floor(Math.random() * 3));
     }, 2600);
     return () => clearInterval(iv);
-  }, [open, t.name]);
+  }, [open, t.name, live, completed]);
   const doRegister = m => {
     if (window.playClick) window.playClick(1400, 0.05);
     setPaidWith(m && m.id === "ticket" ? "TICKET" : m ? "BALANCE" : null);
@@ -536,11 +545,10 @@ function TournamentDetail({
     });
   };
   if (!open) return null;
-  if (ev?.status === "completed") return /*#__PURE__*/React.createElement(CompletedTournamentLobby, {
-    event: ev,
-    onClose: onClose
-  });
   return /*#__PURE__*/React.createElement("div", {
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-label": completed ? "Завершённый турнир: " + t.name : "Лобби турнира: " + t.name,
     style: {
       position: "absolute",
       inset: 0,
@@ -568,6 +576,7 @@ function TournamentDetail({
       background: "linear-gradient(180deg, rgba(0,0,0,.7) 40%, transparent)"
     }
   }, /*#__PURE__*/React.createElement("button", {
+    "aria-label": completed ? "Назад к результатам турниров" : "Назад",
     onClick: onClose,
     style: {
       width: 36,
@@ -649,7 +658,12 @@ function TournamentDetail({
     }
   }, /*#__PURE__*/React.createElement("path", {
     d: "M12 5v14M5 12h14"
-  })))), /*#__PURE__*/React.createElement("button", {
+  })))), completed ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 36
+    }
+  }) : /*#__PURE__*/React.createElement("button", {
+    "aria-label": "\u041F\u043E\u0434\u0435\u043B\u0438\u0442\u044C\u0441\u044F \u0442\u0443\u0440\u043D\u0438\u0440\u043E\u043C",
     onClick: () => {
       if (window.playClick) window.playClick(1100, 0.04);
       setShareOpen(true);
@@ -689,7 +703,7 @@ function TournamentDetail({
       overflowY: "auto",
       overflowX: "hidden",
       WebkitOverflowScrolling: "touch",
-      paddingBottom: dockH + 18
+      paddingBottom: completed ? 32 : dockH + 18
     }
   }, /*#__PURE__*/React.createElement(TournamentCover, {
     t: t,
@@ -698,7 +712,8 @@ function TournamentDetail({
     isRed: isRed,
     cd: cd,
     overlay: overlay,
-    live: live
+    live: live,
+    completed: completed
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -706,7 +721,7 @@ function TournamentDetail({
       padding: "0 16px",
       gap: 4
     }
-  }, [["overview", "EVENT INFO"], ["satellites", "SATELLITES · " + satCount], ["prize", "PRIZE POOL"]].map(([id, lb]) => {
+  }, (completed ? [["overview", "EVENT INFO"], ["result", "МОЙ РЕЗУЛЬТАТ"]] : [["overview", "EVENT INFO"], ["satellites", "SATELLITES · " + satCount], ["prize", "PRIZE POOL"]]).map(([id, lb]) => {
     const on = tab === id;
     return /*#__PURE__*/React.createElement("button", {
       key: id,
@@ -728,7 +743,7 @@ function TournamentDetail({
         transition: "color 140ms"
       }
     }, lb);
-  })), tab === "overview" && /*#__PURE__*/React.createElement("div", {
+  })), tab === "overview" && !completed && /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "18px 16px 170px"
     }
@@ -857,7 +872,94 @@ function TournamentDetail({
   }) : null, /*#__PURE__*/React.createElement(BlindStructure, {
     levelTime: t.levelTime,
     currentLevel: live && window.MTT_LIVE && window.MTT_LIVE.levelNow ? window.MTT_LIVE.levelNow() : 0
-  })), tab === "satellites" && /*#__PURE__*/React.createElement(SatLadderTab, {
+  })), completed && /*#__PURE__*/React.createElement("div", {
+    "data-i18n": "off",
+    style: {
+      padding: "18px 16px 32px"
+    }
+  }, tab === "overview" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3,minmax(0,1fr))",
+      gap: 1,
+      background: "rgba(255,255,255,.07)",
+      borderRadius: 14,
+      overflow: "hidden",
+      border: "1px solid rgba(255,255,255,.07)"
+    }
+  }, /*#__PURE__*/React.createElement(InfoCell, {
+    label: "\u0414\u0410\u0422\u0410",
+    value: ev.date
+  }), /*#__PURE__*/React.createElement(InfoCell, {
+    label: "\u0411\u0410\u0419-\u0418\u041D",
+    value: ev.buyIn,
+    accentVal: suitColor
+  }), /*#__PURE__*/React.createElement(InfoCell, {
+    label: "\u0418\u0413\u0420\u041E\u041A\u041E\u0412",
+    value: ev.entries.toLocaleString('ru')
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      padding: "2px 14px",
+      borderRadius: 14,
+      background: "rgba(255,255,255,.05)",
+      border: "1px solid rgba(255,255,255,.09)"
+    }
+  }, [["СТАТУС", "Завершён"], ["ВАШЕ МЕСТО", ev.place + " / " + ev.entries], ["ВАШ ПРИЗ", ev.prize]].map(([label, value], i) => /*#__PURE__*/React.createElement("div", {
+    key: label,
+    style: {
+      ...TD_ROW,
+      padding: "14px 0",
+      borderBottom: i === 2 ? "none" : TD_ROW.borderBottom
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: TD_K
+  }, label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      ...TD_V,
+      textAlign: "right",
+      color: i === 2 ? "#21C97B" : "#fff"
+    }
+  }, value))))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 1,
+      background: "rgba(255,255,255,.07)",
+      borderRadius: 14,
+      overflow: "hidden",
+      border: "1px solid rgba(255,255,255,.07)"
+    }
+  }, /*#__PURE__*/React.createElement(InfoCell, {
+    label: "\u0412\u0410\u0428\u0415 \u041C\u0415\u0421\u0422\u041E",
+    value: "#" + ev.place,
+    sub: "из " + ev.entries + " игроков"
+  }), /*#__PURE__*/React.createElement(InfoCell, {
+    label: "\u0412\u0410\u0428 \u041F\u0420\u0418\u0417",
+    value: ev.prize,
+    accentVal: "#21C97B"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      ...TD_ROW,
+      marginTop: 16
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: TD_K
+  }, "\u0422\u0423\u0420\u041D\u0418\u0420"), /*#__PURE__*/React.createElement("span", {
+    style: TD_V
+  }, ev.name)), /*#__PURE__*/React.createElement("div", {
+    style: TD_ROW
+  }, /*#__PURE__*/React.createElement("span", {
+    style: TD_K
+  }, "\u0414\u0410\u0422\u0410"), /*#__PURE__*/React.createElement("span", {
+    style: TD_V
+  }, ev.date)), /*#__PURE__*/React.createElement("div", {
+    style: TD_ROW
+  }, /*#__PURE__*/React.createElement("span", {
+    style: TD_K
+  }, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("span", {
+    style: TD_V
+  }, ev.buyIn)))), tab === "satellites" && /*#__PURE__*/React.createElement(SatLadderTab, {
     accent: accent,
     t: t,
     ev: ev
@@ -867,7 +969,7 @@ function TournamentDetail({
     gtdNum: t.gtdNum,
     live: live,
     feeds: t.feeds
-  })), /*#__PURE__*/React.createElement("div", {
+  })), !completed && /*#__PURE__*/React.createElement("div", {
     ref: dockRef,
     style: {
       position: "absolute",
@@ -2699,7 +2801,8 @@ function TournamentCover({
   isRed,
   cd,
   overlay = 0,
-  live
+  live,
+  completed = false
 }) {
   const [, forceTick] = React.useState(0);
   React.useEffect(() => {
@@ -2811,7 +2914,7 @@ function TournamentCover({
       backdropFilter: "blur(8px)",
       WebkitBackdropFilter: "blur(8px)"
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, !completed && /*#__PURE__*/React.createElement("span", {
     style: {
       width: 6,
       height: 6,
@@ -2831,7 +2934,7 @@ function TournamentCover({
       fontVariantNumeric: "tabular-nums",
       lineHeight: 1
     }
-  }, live && elapsed ? "LIVE " + elapsed : cd.hhmmss))), /*#__PURE__*/React.createElement("div", {
+  }, completed ? t.date : live && elapsed ? "LIVE " + elapsed : cd.hhmmss))), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: MONO_T,
       fontSize: 38,
@@ -2849,11 +2952,11 @@ function TournamentCover({
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: MONO_T,
-      fontSize: t.gtd.length > 12 ? 18 : 22,
+      fontSize: (completed ? t.buyIn : t.gtd).length > 12 ? 18 : 22,
       color: suitColor,
       letterSpacing: ".02em"
     }
-  }, t.gtd), /*#__PURE__*/React.createElement("span", {
+  }, completed ? t.buyIn : t.gtd), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: SANS_T,
       fontWeight: 600,
@@ -2861,7 +2964,7 @@ function TournamentCover({
       color: "#A9A9B2",
       letterSpacing: ".16em"
     }
-  }, "GUARANTEED")), overlay > 0 && /*#__PURE__*/React.createElement("span", {
+  }, completed ? "БАЙ-ИН" : "GUARANTEED")), overlay > 0 && /*#__PURE__*/React.createElement("span", {
     style: {
       display: "inline-flex",
       alignItems: "center",
@@ -3560,63 +3663,4 @@ function TargetGlyph({
     default:
       return null;
   }
-}
-
-// Completed mode of the tournament lobby, opened from historical results.
-function CompletedTournamentLobby({
-  event: e,
-  onClose
-}) {
-  const [tab, setTab] = React.useState('overview');
-  return /*#__PURE__*/React.createElement("section", {
-    className: "me-overlay me-screen ms-completed-tournament",
-    role: "dialog",
-    "aria-modal": "true",
-    "aria-label": 'Завершённый турнир: ' + e.name,
-    "data-i18n": "off",
-    style: {
-      zIndex: 90,
-      background: '#07080a',
-      display: 'flex',
-      flexDirection: 'column'
-    }
-  }, /*#__PURE__*/React.createElement("header", {
-    className: "pd-screen-header"
-  }, /*#__PURE__*/React.createElement("button", {
-    "aria-label": "\u041D\u0430\u0437\u0430\u0434 \u043A \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0430\u043C \u0442\u0443\u0440\u043D\u0438\u0440\u043E\u0432",
-    onClick: onClose
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2.4"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "m15 6-6 6 6 6"
-  }))), /*#__PURE__*/React.createElement("h2", null, "\u041B\u041E\u0411\u0411\u0418 \u0422\u0423\u0420\u041D\u0418\u0420\u0410"), /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement("div", {
-    className: "me-scroll",
-    style: {
-      padding: '24px 20px 40px'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "ms-completed-status"
-  }, "\u0417\u0410\u0412\u0415\u0420\u0428\u0401\u041D \xB7 ", e.date), /*#__PURE__*/React.createElement("h1", null, e.name), /*#__PURE__*/React.createElement(window.SSegment, {
-    options: [{
-      id: 'overview',
-      label: 'О СОБЫТИИ'
-    }, {
-      id: 'result',
-      label: 'МОЙ РЕЗУЛЬТАТ'
-    }],
-    value: tab,
-    onChange: setTab,
-    accent: UI.accent
-  }), tab === 'overview' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "ms-completed-grid"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0414\u0410\u0422\u0410"), /*#__PURE__*/React.createElement("strong", null, e.date)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("strong", null, e.buyIn)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0418\u0413\u0420\u041E\u041A\u041E\u0412"), /*#__PURE__*/React.createElement("strong", null, e.entries.toLocaleString('ru'))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0421\u0422\u0410\u0422\u0423\u0421"), /*#__PURE__*/React.createElement("strong", null, "\u0417\u0430\u0432\u0435\u0440\u0448\u0451\u043D"))), /*#__PURE__*/React.createElement("p", null, "\u0422\u0443\u0440\u043D\u0438\u0440 \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D. \u0418\u0442\u043E\u0433\u0438 \u0432\u0430\u0448\u0435\u0433\u043E \u0443\u0447\u0430\u0441\u0442\u0438\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B \u0432\u043E \u0432\u043A\u043B\u0430\u0434\u043A\u0435 \xAB\u041C\u043E\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\xBB.")) : /*#__PURE__*/React.createElement("div", {
-    className: "ms-completed-grid"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0412\u0410\u0428\u0415 \u041C\u0415\u0421\u0422\u041E"), /*#__PURE__*/React.createElement("strong", null, "#", e.place)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0412\u0410\u0428 \u041F\u0420\u0418\u0417"), /*#__PURE__*/React.createElement("strong", {
-    className: "ms-completed-prize"
-  }, e.prize)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0420\u0410\u0417\u041C\u0415\u0420 \u041F\u041E\u041B\u042F"), /*#__PURE__*/React.createElement("strong", null, e.entries.toLocaleString('ru'))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("strong", null, e.buyIn)))));
 }
