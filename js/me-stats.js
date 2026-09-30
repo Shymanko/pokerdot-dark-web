@@ -733,7 +733,11 @@ function MsCashScreen({
     disc: disc,
     period: period,
     onExplain: setEx
-  }), /*#__PURE__*/React.createElement(MsHeading, {
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "ms-records"
+  }, /*#__PURE__*/React.createElement(MeBiggestPot, {
+    onReplay: setReplay
+  })), /*#__PURE__*/React.createElement(MsHeading, {
     aside: "\u043D\u0430\u0436\u043C\u0438 \u043D\u0430 \u043F\u043E\u043A\u0430\u0437\u0430\u0442\u0435\u043B\u044C"
   }, "\u0418\u0413\u0420\u041E\u0412\u042B\u0415 \u041F\u041E\u041A\u0410\u0417\u0410\u0422\u0415\u041B\u0418"), /*#__PURE__*/React.createElement("div", {
     className: "ms-game-grid"
@@ -744,11 +748,7 @@ function MsCashScreen({
     index: i,
     ratio: k === 'af',
     onExplain: () => setEx(label)
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "ms-records"
-  }, /*#__PURE__*/React.createElement(MeBiggestPot, {
-    onReplay: setReplay
-  })), /*#__PURE__*/React.createElement(MsRecentHands, {
+  }))), /*#__PURE__*/React.createElement(MsRecentHands, {
     format: "CASH",
     disc: disc === 'OMAHA' ? 'PLO' : disc,
     onHistory: () => setHands(true),
