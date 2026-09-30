@@ -152,7 +152,7 @@ function RbThermalModel({
       ownedMaterials.push(crystalMat);
       for (let i = 0; i < 18; i++) {
         const a = i * 2.39996,
-          r = i < 14 ? 1.04 : .86,
+          r = i < 14 ? .93 : .78,
           k = new T.Mesh(crystalGeo, crystalMat);
         k.position.set(Math.cos(a) * r, Math.sin(a) * r, .10 + i % 3 * .09);
         k.rotation.set(.3 * Math.sin(a), .35 * Math.cos(a), a - Math.PI / 2);
@@ -236,7 +236,7 @@ function RbThermalModel({
         if (!cancelled) setStatus('error');
       });
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches,
-        coldColor = new T.Color('#9ddfff'),
+        coldColor = new T.Color('#72bce7'),
         hotColor = new T.Color('#ed672c');
       const render = t => {
         if (cancelled) return;
@@ -254,9 +254,9 @@ function RbThermalModel({
           roughness,
           metalness
         }) => {
-          m.color.copy(color).lerp(coldColor, cold * .48).lerp(hotColor, hot * .45);
-          m.roughness = roughness + cold * .14;
-          m.metalness = metalness * (1 - cold * .55);
+          m.color.copy(color).lerp(coldColor, cold * .3).lerp(hotColor, hot * .45);
+          m.roughness = roughness + cold * .08;
+          m.metalness = metalness * (1 - cold * .18);
           if (m.emissive) {
             m.emissive.copy(emissive).lerp(hotColor, hot);
             m.emissiveIntensity = hot * .72;
