@@ -132,6 +132,9 @@
   const CM_RB_BASE = 10;
   function lgRbPercent(lvl) {
     const n = Math.max(0, Math.min(CM_TOTAL, Math.round(lvl) || 0));
+    if (window.rbCalculation) return Math.round(window.rbCalculation({
+      cardLevel: n
+    }).total * 10) / 10;
     if (n === 0) return CM_RB_BASE;
     return Math.round(CM_RB_BASE * (1 + lgRbExtra(n) / 100) * 10) / 10;
   }
@@ -213,7 +216,9 @@
     rbPercent: lgRbPercent,
     rbExtra: lgRbExtra,
     rbStep: lgRbStep,
-    rbBase: CM_RB_BASE,
+    get rbBase() {
+      return window.rbCalculation ? window.rbCalculation().base : CM_RB_BASE;
+    },
     cardReward: lgCardReward,
     indexForLevel: lgIndexForLevel,
     forLevel: lgForLevel,

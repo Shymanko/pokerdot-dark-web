@@ -894,7 +894,7 @@ function RbHousePayout({
     className: "rb-house-line",
     "data-bonus": "true",
     "data-visible": time >= 700
-  }, /*#__PURE__*/React.createElement("span", null, "\u0411\u043E\u043D\u0443\u0441 \u043A\u0430\u0440\u0442\u044B", /*#__PURE__*/React.createElement("small", null, window.cmLeague.cardForLevel(cardLevel ?? window.cmPlayer.level), " \xB7 +", bonus.toLocaleString('ru-RU'), "%")), /*#__PURE__*/React.createElement("strong", null, "+", fmt(bonusCount)))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "\u0411\u043E\u043D\u0443\u0441 \u043A\u0430\u0440\u0442\u044B", /*#__PURE__*/React.createElement("small", null, (window.cmLeague53 || window.cmLeague).cardForLevel(cardLevel ?? window.cmPlayer53?.level ?? window.cmPlayer.level), " \xB7 +", bonus.toLocaleString('ru-RU'), "%")), /*#__PURE__*/React.createElement("strong", null, "+", fmt(bonusCount)))), /*#__PURE__*/React.createElement("div", {
     className: "rb-house-total",
     "data-visible": time >= 1450
   }, /*#__PURE__*/React.createElement("small", null, "\u0418\u0422\u041E\u0413\u041E \u041D\u0410 \u041E\u0421\u041D\u041E\u0412\u041D\u041E\u0419 \u0411\u0410\u041B\u0410\u041D\u0421"), /*#__PURE__*/React.createElement("div", {

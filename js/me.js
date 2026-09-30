@@ -1310,56 +1310,10 @@ function MeInfoSteps({
 function MeBaseRbBody({
   accent
 }) {
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "me-hint",
-    style: {
-      marginTop: 8,
-      fontSize: 14,
-      color: "#CDD2DB"
-    }
-  }, "\u0411\u0430\u0437\u043E\u0432\u0430\u044F \u0441\u0442\u0430\u0432\u043A\u0430 \u0440\u0435\u0439\u043A\u0431\u0435\u043A\u0430 \u2014 \u0432\u0430\u0448\u0430 \u043B\u0438\u0447\u043D\u0430\u044F. \u0415\u0451 \u0441\u0447\u0438\u0442\u0430\u0435\u0442 \u043C\u043E\u0434\u0435\u043B\u044C, \u043A\u043E\u0442\u043E\u0440\u0430\u044F \u043E\u0434\u043D\u043E\u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E \u043E\u043F\u0438\u0440\u0430\u0435\u0442\u0441\u044F \u043D\u0430 \u0434\u0438\u0441\u0442\u0430\u043D\u0446\u0438\u044E, \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u043D\u0430 \u0442\u0435\u043A\u0443\u0449\u0438\u0435 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B \u0438 \u0443\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442, \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0438 \u0432\u043E \u0447\u0442\u043E \u0432\u044B \u0438\u0433\u0440\u0430\u0435\u0442\u0435."), /*#__PURE__*/React.createElement("div", {
-    className: "me-label",
-    style: {
-      marginTop: 16,
-      color: "#8A8A93"
-    }
-  }, "\u0418\u0417 \u0427\u0415\u0413\u041E \u0421\u041A\u041B\u0410\u0414\u042B\u0412\u0410\u0415\u0422\u0421\u042F"), /*#__PURE__*/React.createElement(MeInfoSteps, {
-    items: ME_BASE_RB_INFO,
-    accent: accent
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "me-label",
-    style: {
-      marginTop: 16,
-      color: "#8A8A93"
-    }
-  }, "\u041A\u0410\u041A \u042D\u0422\u041E \u0420\u0410\u0411\u041E\u0422\u0410\u0415\u0422"), /*#__PURE__*/React.createElement("div", {
-    className: "me-hint",
-    style: {
-      marginTop: 6,
-      fontSize: 14,
-      color: "#CDD2DB"
-    }
-  }, "\u0421\u0438\u0441\u0442\u0435\u043C\u0430 \u0436\u0438\u0432\u0430\u044F: \u043E\u043D\u0430 \u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u0435\u0442 \u043F\u043E\u0432\u0435\u0434\u0435\u043D\u0438\u0435 \u0437\u0430 \u0441\u0442\u043E\u043B\u0430\u043C\u0438 \u0438 \u0430\u0434\u0430\u043F\u0442\u0438\u0440\u0443\u0435\u0442\u0441\u044F, \u0447\u0442\u043E\u0431\u044B \u043E\u0441\u0442\u0430\u0432\u0430\u0442\u044C\u0441\u044F \u0441\u043F\u0440\u0430\u0432\u0435\u0434\u043B\u0438\u0432\u043E\u0439 \u0438 \u043F\u0440\u0435\u0434\u0441\u043A\u0430\u0437\u0443\u0435\u043C\u043E\u0439 \u043D\u0430 \u0434\u0438\u0441\u0442\u0430\u043D\u0446\u0438\u0438. \u041E\u043D\u0430 \u0437\u0430\u043C\u0435\u0447\u0430\u0435\u0442, \u043A\u0430\u043A \u0432\u044B \u043E\u0441\u0432\u0430\u0438\u0432\u0430\u0435\u0442\u0435 \u043D\u043E\u0432\u044B\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u044B, \u0440\u0430\u0441\u0442\u0451\u0442\u0435 \u043F\u043E \u043B\u0438\u043C\u0438\u0442\u0430\u043C \u0438 \u043C\u0435\u043D\u044F\u0435\u0442\u0435 \u043F\u043E\u0434\u0445\u043E\u0434 \u043A \u0438\u0433\u0440\u0435."), /*#__PURE__*/React.createElement("div", {
-    className: "me-hint",
-    style: {
-      marginTop: 8,
-      fontSize: 14,
-      color: "#CDD2DB"
-    }
-  }, "\u0421\u0435\u0439\u0447\u0430\u0441 \u0438\u0434\u0451\u0442 \u043A\u0430\u043B\u0438\u0431\u0440\u043E\u0432\u043A\u0430: \u043C\u044B \u043D\u0430\u0431\u043B\u044E\u0434\u0430\u0435\u043C \u0437\u0430 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0434\u0430\u043D\u043D\u044B\u043C\u0438 \u0438 \u043F\u043E\u0441\u0442\u0435\u043F\u0435\u043D\u043D\u043E \u0443\u0442\u043E\u0447\u043D\u044F\u0435\u043C \u043C\u043E\u0434\u0435\u043B\u044C."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 14,
-      padding: "12px 14px",
-      borderRadius: UI.r.chip,
-      background: `${accent}14`,
-      border: `1px solid ${accent}55`,
-      fontFamily: ME_SANS,
-      fontWeight: 600,
-      fontSize: 14,
-      color: "#fff",
-      lineHeight: 1.45
-    }
-  }, "\u0426\u0435\u043B\u044C \u2014 \u0432\u043E\u0437\u043D\u0430\u0433\u0440\u0430\u0436\u0434\u0430\u0442\u044C \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C \u0438 \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0443 \u0438\u0433\u0440\u044B, \u0430 \u043D\u0435 \u0442\u043E\u043B\u044C\u043A\u043E \u043D\u0430\u043A\u043E\u043F\u043B\u0435\u043D\u043D\u044B\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442."));
+  return /*#__PURE__*/React.createElement(MeInfoSteps, {
+    accent: accent,
+    items: [['УДАЧА ОПРЕДЕЛЯЕТ ТАЛИСМАН', 'Чем меньше вам везёт, тем больше базовый рейкбек. Всего 12 талисманов.'], ['АКТИВНОСТЬ ЗАДАЁТ ТЕМПЕРАТУРУ', 'Мало активности — талисман охлаждается. Больше активности — разогревается. Всего 10 состояний.'], ['КАРТЫ ДОБАВЛЯЮТ БОНУС', 'Бонус вашей открытой карты увеличивает рассчитанный базовый рейкбек. Прогресс коллекции из 53 карт сохраняется.']]
+  });
 }
 // Бонус карти: відсоток ДО РОЗРАХОВАНОГО базового рейкбеку, а не від рейку. Приклад на реальних цифрах гравця.
 function MeCardBonusBody({
@@ -3143,14 +3097,15 @@ function RbHouseFirst({
     setCollecting(true);
     // Prototype settlement boundary. Production replaces this with a server response.
     timer.current = setTimeout(() => {
-      const base = Math.round(P.rakeCycle * .10 * 100) / 100,
-        amount = Math.round(base * (1 + L.rbExtra(P.level) / 100) * 100) / 100;
+      const rate = window.rbCalculation(),
+        base = Math.round(P.rakeCycle * rate.base) / 100,
+        amount = Math.round(P.rakeCycle * rate.total) / 100;
       setCollecting(false);
       setPay({
         amount,
         base,
-        bonus: L.rbExtra(P.level),
-        level: P.level,
+        bonus: rate.bonus,
+        level: rate.cardLevel,
         credited: false
       });
     }, 650);
@@ -3220,55 +3175,13 @@ function RbHouseFirst({
     className: "hf-section-nav"
   }, /*#__PURE__*/React.createElement(HfBack, {
     onClick: onBack
-  }), historyButton), /*#__PURE__*/React.createElement("div", {
-    className: "hf-stats",
-    style: noIdentity ? {
-      marginTop: 8
-    } : null
+  }), historyButton), /*#__PURE__*/React.createElement(window.RbRateWidget, {
+    onOverlay: onOverlay
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "rb-house-subnav"
   }, /*#__PURE__*/React.createElement("button", {
-    className: "hf-stat",
-    onClick: () => setBaseInfo(true),
-    "aria-label": "\u0427\u0442\u043E \u0442\u0430\u043A\u043E\u0435 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0440\u0435\u0439\u043A\u0431\u0435\u043A"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "hf-stat-label"
-  }, "\u0411\u0410\u0417\u041E\u0412\u042B\u0419", /*#__PURE__*/React.createElement("br", null), "\u0420\u0415\u0419\u041A\u0411\u0415\u041A"), /*#__PURE__*/React.createElement("strong", null, String(L.rbBase).replace('.', ','), "%", /*#__PURE__*/React.createElement("i", {
-    className: "hf-rules"
-  }, "i"))), /*#__PURE__*/React.createElement("button", {
-    className: "hf-stat",
-    onClick: () => setCardInfo(true),
-    "aria-label": "\u0427\u0442\u043E \u0442\u0430\u043A\u043E\u0435 \u0431\u043E\u043D\u0443\u0441 \u043E\u0442 \u043A\u0430\u0440\u0442\u044B"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "hf-stat-label"
-  }, "\u0411\u041E\u041D\u0423\u0421", /*#__PURE__*/React.createElement("br", null), "\u041A\u0410\u0420\u0422\u042B"), /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: '#e2bd72'
-    }
-  }, L.rbExtra(P.level) ? '+' + rbBonusLabel(P.level) + '%' : '—', /*#__PURE__*/React.createElement("i", {
-    className: "hf-rules"
-  }, "i"))), /*#__PURE__*/React.createElement("button", {
-    className: "hf-stat hf-stat-link",
-    onClick: onHistory,
-    "aria-label": "\u0418\u0441\u0442\u043E\u0440\u0438\u044F \u0440\u0435\u0439\u043A\u0431\u0435\u043A\u0430"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "hf-stat-label"
-  }, "\u0418\u0421\u0422\u041E\u0420\u0418\u042F", /*#__PURE__*/React.createElement("br", null), "\u0411\u041E\u041D\u0423\u0421\u041E\u0412"), /*#__PURE__*/React.createElement("strong", {
-    style: {
-      fontSize: 13,
-      letterSpacing: ".08em",
-      gap: 6
-    }
-  }, "\u041E\u0422\u041A\u0420\u042B\u0422\u042C", /*#__PURE__*/React.createElement("svg", {
-    width: "12",
-    height: "12",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2.6",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M9 6l6 6-6 6"
-  }))))), /*#__PURE__*/React.createElement("div", {
+    onClick: onHistory
+  }, "\u0418\u0441\u0442\u043E\u0440\u0438\u044F \u0440\u0435\u0439\u043A\u0431\u0435\u043A\u0430 ", /*#__PURE__*/React.createElement(RbChevron, null))), /*#__PURE__*/React.createElement("div", {
     className: "hf-scene",
     style: {
       position: "relative"
