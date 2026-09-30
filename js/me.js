@@ -3176,6 +3176,7 @@ function RbHouseFirst({
   }, /*#__PURE__*/React.createElement(HfBack, {
     onClick: onBack
   }), historyButton), /*#__PURE__*/React.createElement(window.RbRateWidget, {
+    variant: "hero",
     onOverlay: onOverlay
   }), /*#__PURE__*/React.createElement("div", {
     className: "rb-house-subnav"

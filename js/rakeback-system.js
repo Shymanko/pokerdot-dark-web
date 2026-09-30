@@ -1,9 +1,11 @@
 // One source of truth for the illustrative rakeback calculation.
 // Production must supply approved bands, activity thresholds and a server snapshot.
-const RB_TALISMANS = [['anchor', 'Якорь'], ['shield', 'Щит'], ['ox', 'Бык'], ['dog', 'Собака'], ['horse', 'Конь'], ['tiger', 'Тигр'], ['compass', 'Компас'], ['clover', 'Клевер'], ['rooster', 'Петух'], ['star', 'Звезда'], ['crown', 'Корона'], ['dragon', 'Дракон']].map(([id, name], i) => ({
+const RB_READY_MODELS = new Set(['ox', 'tiger', 'dragon', 'horse', 'rooster', 'dog']);
+const RB_TALISMANS = [['rat', 'Крыса'], ['ox', 'Бык'], ['tiger', 'Тигр'], ['rabbit', 'Кролик'], ['dragon', 'Дракон'], ['snake', 'Змея'], ['horse', 'Лошадь'], ['sheep', 'Коза'], ['rooster', 'Петух'], ['monkey', 'Обезьяна'], ['dog', 'Собака'], ['pig', 'Свинья']].map(([id, name], i) => ({
   id,
   name,
   index: i,
+  modelReady: RB_READY_MODELS.has(id),
   rate: 22 - i,
   min: -500 + i * 1000 / 12,
   max: -500 + (i + 1) * 1000 / 12
@@ -86,6 +88,10 @@ function RbThermalModel({
       crystals = [],
       flames = [],
       embers = [];
+    if (!RB_READY_MODELS.has(id)) {
+      setStatus('unavailable');
+      return;
+    }
     setStatus('loading');
     motion.current = {
       yaw: -.20,
@@ -108,7 +114,7 @@ function RbThermalModel({
       env = CH.envFor(renderer);
       scene.environment = env;
       const camera = new T.PerspectiveCamera(34, 1, .1, 30);
-      camera.position.set(0, 0, mini ? 5.25 : 5.05);
+      camera.position.set(0, 0, mini ? 5.25 : 3.7);
       const pivot = new T.Group();
       scene.add(pivot);
       fx = new T.Group();
@@ -321,11 +327,13 @@ function RbThermalModel({
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "rb-thermal-aura"
-  }), status !== 'ready' && /*#__PURE__*/React.createElement("img", {
+  }), status !== 'ready' && RB_READY_MODELS.has(id) && /*#__PURE__*/React.createElement("img", {
     className: "rb-thermal-fallback",
     src: `assets/talismans3d/${id}.png`,
     alt: ""
-  }), /*#__PURE__*/React.createElement("canvas", {
+  }), !RB_READY_MODELS.has(id) && /*#__PURE__*/React.createElement("span", {
+    className: "rb-model-unavailable"
+  }, name, /*#__PURE__*/React.createElement("small", null, "3D-\u043C\u043E\u0434\u0435\u043B\u044C \u0435\u0449\u0451 \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430")), /*#__PURE__*/React.createElement("canvas", {
     ref: canvas,
     role: "img",
     "aria-label": `${name}, ${RB_TEMPERATURES[temperature].name}. 3D талисман${mini ? '' : '. Потяните для вращения'}`,
@@ -396,7 +404,18 @@ function RbRateWidget({
     className: 'rb-rate-wrap rb-rate-' + variant,
     ref: ref,
     "data-i18n": "off"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, variant === 'hero' && /*#__PURE__*/React.createElement("div", {
+    className: "rb-home-talisman",
+    style: {
+      '--thermal': c.temperature.color
+    }
+  }, !host && /*#__PURE__*/React.createElement(RbThermalModel, {
+    id: c.talisman.id,
+    temperature: c.temperature.index,
+    name: c.talisman.name
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "rb-home-talisman-caption"
+  }, /*#__PURE__*/React.createElement("h2", null, c.talisman.name), /*#__PURE__*/React.createElement("span", null, c.temperature.name, " \xB7 ", c.temperature.index + 1, "/10"))), /*#__PURE__*/React.createElement("button", {
     className: "rb-rate-widget",
     "aria-label": `Ваш рейкбек ${rbFmt(c.total)}%. Открыть расчёт`,
     onClick: () => setHost(ref.current.closest('[data-app-root]') || ref.current.parentElement)
@@ -411,7 +430,7 @@ function RbRateWidget({
   }, "\u041A\u0430\u043A \u0441\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442\u0441\u044F ", /*#__PURE__*/React.createElement(RbChevron, null))), /*#__PURE__*/React.createElement("span", {
     className: "rb-rate-model",
     "aria-hidden": "true"
-  }, !host && /*#__PURE__*/React.createElement(RbThermalModel, {
+  }, !host && variant !== 'hero' && /*#__PURE__*/React.createElement(RbThermalModel, {
     id: c.talisman.id,
     temperature: c.temperature.index,
     name: c.talisman.name,
@@ -634,11 +653,13 @@ function RbRateDetails({
     "data-current": i === current.talisman.index
   }, /*#__PURE__*/React.createElement("span", {
     className: "rb-tile-index"
-  }, String(i + 1).padStart(2, '0')), /*#__PURE__*/React.createElement("img", {
+  }, String(i + 1).padStart(2, '0')), t.modelReady ? /*#__PURE__*/React.createElement("img", {
     loading: "lazy",
     src: `assets/talismans3d/${t.id}.png`,
     alt: ""
-  }), /*#__PURE__*/React.createElement("strong", null, t.name), /*#__PURE__*/React.createElement("span", null, i === current.talisman.index ? 'Ваш талисман' : '10 состояний')))), /*#__PURE__*/React.createElement("div", {
+  }) : /*#__PURE__*/React.createElement("span", {
+    className: "rb-catalog-pending"
+  }, "3D-\u043C\u043E\u0434\u0435\u043B\u044C", /*#__PURE__*/React.createElement("br", null), "\u0435\u0449\u0451 \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430"), /*#__PURE__*/React.createElement("strong", null, t.name), /*#__PURE__*/React.createElement("span", null, i === current.talisman.index ? 'Ваш талисман' : '10 состояний')))), /*#__PURE__*/React.createElement("div", {
     className: "rb-catalog-intro"
   }, /*#__PURE__*/React.createElement("h2", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C \u0437\u0430\u0434\u0430\u0451\u0442 \u0442\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0443"), /*#__PURE__*/React.createElement("p", null, "\u041C\u0430\u043B\u043E \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u0438 \u2014 \u0442\u0430\u043B\u0438\u0441\u043C\u0430\u043D \u0432\u043E \u043B\u044C\u0434\u0443. \u0411\u043E\u043B\u044C\u0448\u0435 \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u0438 \u2014 \u043E\u043D \u043E\u0442\u0442\u0430\u0438\u0432\u0430\u0435\u0442 \u0438 \u043D\u0430\u0433\u0440\u0435\u0432\u0430\u0435\u0442\u0441\u044F. \u0423 \u043A\u0430\u0436\u0434\u043E\u0433\u043E \u0442\u0430\u043B\u0438\u0441\u043C\u0430\u043D\u0430 10 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0439.")), /*#__PURE__*/React.createElement("div", {
     className: "rb-state-list"
