@@ -170,7 +170,7 @@
 /* Career revisions, 29–30 September: descriptive statistics without rating zones. */
 .ms-luck-widget{position:relative;margin:16px 20px 0;border:1px solid #ffffff18;border-radius:20px;background:#0c0f12;isolation:isolate}
 .ms-luck-widget .pd-luck-meter{padding:16px 14px 0}.ms-luck-widget .pd-luck-info{z-index:3}.ms-luck-widget .pd-luck-advice{margin-top:20px}
-.ms-luck-open{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:18px 14px;border:0;border-top:1px solid #ffffff0d;background:none;color:#8996a7;font:400 11px 'Golos Text',sans-serif;text-align:left;cursor:pointer}
+.ms-luck-open{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:18px 14px;border:0;background:none;color:#8996a7;font:400 11px 'Golos Text',sans-serif;text-align:left;cursor:pointer}
 .ms-luck-open:before{content:'';position:absolute;inset:0;border-radius:20px}.ms-luck-open b{font-size:11px;color:#e8edf4;white-space:nowrap}.ms-luck-open:focus-visible{outline:2px solid #e22935;outline-offset:3px;border-radius:20px}
 .ms-cash-overview,.ms-equal-grid{border:1px solid #ffffff15;border-radius:20px;background:#0d1013;overflow:hidden;margin-bottom:26px}
 .ms-cash-overview>button{display:block;width:100%;padding:18px;border:0;background:none;color:#edf1f7;text-align:left;cursor:pointer;font-family:'Golos Text',sans-serif}.ms-cash-overview>button+button{border-top:1px solid #ffffff12}
