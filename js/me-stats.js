@@ -760,12 +760,16 @@ function MsCashScreen({
 }
 function MsResultRows({
   rows,
-  leaderboard = false
+  leaderboard = false,
+  onOpen
 }) {
   return /*#__PURE__*/React.createElement("div", {
     className: "ms-result-list"
-  }, rows.map((r, i) => /*#__PURE__*/React.createElement("div", {
+  }, rows.map((r, i) => /*#__PURE__*/React.createElement("button", {
+    type: "button",
     className: "ms-result-row",
+    onClick: onOpen ? () => onOpen(r) : undefined,
+    disabled: !onOpen,
     key: i,
     style: {
       '--i': i
@@ -816,6 +820,17 @@ function MsMttScreen({
   onClose
 }) {
   const history = useMsHandHistory('TOURNEY');
+  const [result, setResult] = React.useState(null);
+  const completed = result ? {
+    id: 'history-' + result[0],
+    status: 'completed',
+    name: result[0],
+    date: result[1],
+    buyIn: result[2],
+    place: parseInt(result[3]),
+    entries: Number(result[3].split(' / ')[1]),
+    prize: result[4]
+  } : null;
   const [period, setPeriod] = React.useState('all'),
     [ex, setEx] = React.useState(null),
     k = period === '7d' ? .15 : period === '30d' ? .55 : 1;
@@ -827,8 +842,13 @@ function MsMttScreen({
     onClose: onClose,
     ex: ex,
     setEx: setEx,
-    covered: history.covered,
-    overlays: history.overlays
+    covered: history.covered || !!result,
+    overlays: /*#__PURE__*/React.createElement(React.Fragment, null, history.overlays, completed && /*#__PURE__*/React.createElement(window.TournamentDetail, {
+      open: true,
+      liveEvent: completed,
+      onClose: () => setResult(null),
+      accent: UI.accent
+    }))
   }, /*#__PURE__*/React.createElement(MsPeriod, {
     value: period,
     onChange: setPeriod
@@ -893,7 +913,8 @@ function MsMttScreen({
   }))), /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(MsNumber, {
     value: v
   }))))), /*#__PURE__*/React.createElement(MsHeading, null, "\u0422\u041E\u041F-5 \u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u041E\u0412 ", period === 'all' ? 'ЗА ВСЁ ВРЕМЯ' : period === '7d' ? 'ЗА 7 ДНЕЙ' : 'ЗА 30 ДНЕЙ'), /*#__PURE__*/React.createElement(MsResultRows, {
-    rows: msTopResults(period)
+    rows: msTopResults(period),
+    onOpen: setResult
   }), history.widget));
 }
 function MsSpinScreen({

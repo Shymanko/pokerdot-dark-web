@@ -536,6 +536,10 @@ function TournamentDetail({
     });
   };
   if (!open) return null;
+  if (ev?.status === "completed") return /*#__PURE__*/React.createElement(CompletedTournamentLobby, {
+    event: ev,
+    onClose: onClose
+  });
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
@@ -3556,4 +3560,63 @@ function TargetGlyph({
     default:
       return null;
   }
+}
+
+// Completed mode of the tournament lobby, opened from historical results.
+function CompletedTournamentLobby({
+  event: e,
+  onClose
+}) {
+  const [tab, setTab] = React.useState('overview');
+  return /*#__PURE__*/React.createElement("section", {
+    className: "me-overlay me-screen ms-completed-tournament",
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-label": 'Завершённый турнир: ' + e.name,
+    "data-i18n": "off",
+    style: {
+      zIndex: 90,
+      background: '#07080a',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("header", {
+    className: "pd-screen-header"
+  }, /*#__PURE__*/React.createElement("button", {
+    "aria-label": "\u041D\u0430\u0437\u0430\u0434 \u043A \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0430\u043C \u0442\u0443\u0440\u043D\u0438\u0440\u043E\u0432",
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "16",
+    height: "16",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2.4"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "m15 6-6 6 6 6"
+  }))), /*#__PURE__*/React.createElement("h2", null, "\u041B\u041E\u0411\u0411\u0418 \u0422\u0423\u0420\u041D\u0418\u0420\u0410"), /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement("div", {
+    className: "me-scroll",
+    style: {
+      padding: '24px 20px 40px'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ms-completed-status"
+  }, "\u0417\u0410\u0412\u0415\u0420\u0428\u0401\u041D \xB7 ", e.date), /*#__PURE__*/React.createElement("h1", null, e.name), /*#__PURE__*/React.createElement(window.SSegment, {
+    options: [{
+      id: 'overview',
+      label: 'О СОБЫТИИ'
+    }, {
+      id: 'result',
+      label: 'МОЙ РЕЗУЛЬТАТ'
+    }],
+    value: tab,
+    onChange: setTab,
+    accent: UI.accent
+  }), tab === 'overview' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "ms-completed-grid"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0414\u0410\u0422\u0410"), /*#__PURE__*/React.createElement("strong", null, e.date)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("strong", null, e.buyIn)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0418\u0413\u0420\u041E\u041A\u041E\u0412"), /*#__PURE__*/React.createElement("strong", null, e.entries.toLocaleString('ru'))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0421\u0422\u0410\u0422\u0423\u0421"), /*#__PURE__*/React.createElement("strong", null, "\u0417\u0430\u0432\u0435\u0440\u0448\u0451\u043D"))), /*#__PURE__*/React.createElement("p", null, "\u0422\u0443\u0440\u043D\u0438\u0440 \u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D. \u0418\u0442\u043E\u0433\u0438 \u0432\u0430\u0448\u0435\u0433\u043E \u0443\u0447\u0430\u0441\u0442\u0438\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B \u0432\u043E \u0432\u043A\u043B\u0430\u0434\u043A\u0435 \xAB\u041C\u043E\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\xBB.")) : /*#__PURE__*/React.createElement("div", {
+    className: "ms-completed-grid"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0412\u0410\u0428\u0415 \u041C\u0415\u0421\u0422\u041E"), /*#__PURE__*/React.createElement("strong", null, "#", e.place)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0412\u0410\u0428 \u041F\u0420\u0418\u0417"), /*#__PURE__*/React.createElement("strong", {
+    className: "ms-completed-prize"
+  }, e.prize)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0420\u0410\u0417\u041C\u0415\u0420 \u041F\u041E\u041B\u042F"), /*#__PURE__*/React.createElement("strong", null, e.entries.toLocaleString('ru'))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("small", null, "\u0411\u0410\u0419-\u0418\u041D"), /*#__PURE__*/React.createElement("strong", null, e.buyIn)))));
 }
